@@ -1,5 +1,5 @@
 class ContributionsController < ApplicationController
-  #before_action :set_contribution, only: [:show, :edit, :update, :destroy]
+  before_action :set_contribution, only: [:show, :edit, :update, :destroy]
 
   # GET /contributions
   # GET /contributions.json
