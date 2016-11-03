@@ -2,12 +2,14 @@
 
 one:
   title: MyText
-  content: MyText
+  url: MyText
+  text: MyText
+  puntuation: 1
   user: one
-  created_at: 2016-10-25 17:44:08
 
 two:
   title: MyText
-  content: MyText
+  url: MyText
+  text: MyText
+  puntuation: 1
   user: two
-  created_at: 2016-10-25 17:44:08

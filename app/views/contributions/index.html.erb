@@ -1,5 +1,5 @@
-<table id="hnmain" border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef"> 
   <thead>
+    <table id="hnmain" border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef"> 
     <tr>
       <td bgcolor="#ff6600">
         <table border="0" cellpadding="0" cellspacing="0" width="100%" >
@@ -13,9 +13,9 @@
               <td style="line-height:12pt; height:10px;">
                 <span class="pagetop">
                   <b class="hnname">
-                    <a href=".">Hacker News</a>
+                    <%= link_to 'Hacker News', contributions_url %>
                   </b>
-                  <a href="newest">new</a> | <a href="">comments</a> | <a href="show">show</a> | <a href="">ask</a> | <a href="">jobs</a> | <a href="contributions/new">submit</a>            
+                  <%= link_to 'newest', contributions_url(:sort => "date")%> | <a href="">comments</a> | <a href="">show</a> | <a href="">ask</a> | <a href="">jobs</a> | <a href="contributions/new">submit</a> 
                 </span>
               </td>
               <td style="text-align:right;padding-right:4px;">
@@ -28,33 +28,62 @@
         </table>
       </td>
     </tr>
+    <tr style="height:10px"></tr>
+    </table>
   </thead>
-  <tr style="height:10px"></tr>
   <tbody border="0" cellpadding="0" cellspacing="0" class="itemlist">
+   <% i=1 %>
    <% @contributions.each do |contribution| %>
+     <table border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
       <tr>
-        <td><%= contribution.title %></td>
-        <td>(<%= contribution.content %>)</td>
+        <td class="enum"><%= i %>.<a href="#"><img width="10" height="10" src="heart.gif"></img></a></td>
+        <td class="title">
+          <a> <%= contribution.title %></a>
+          <% if contribution.url!=nil %>
+          <span>
+            <a class="url_post" href="<%=contribution.url %>">(<%= contribution.url %>)</a>
+          </span>
+          <%end%>
+        </td>
       </tr>
       <tr>
-        <td colspan="2"></td>
-        <td class="subtext">
-          
-           <a href="user?id=cheiVia0" class="hnuser">cheiVia0</a> <span class="age"><a href="item?id=12852912">6 hours ago</a></span> <span id="unv_12852912"></span> | <a href="hide?id=12852912&amp;goto=news">hide</a> | <a href="item?id=12852912">8&nbsp;comments</a>              </td>
-          
-          
-          
-          
-          
-          <!--SCORE <span class="score" id="score_12853531"></span> -->
-          ' by '
-          <td><%= contribution.user %></td>
-          <td><%= contribution.created_at %></td>
+        <td></td>
+        <td class="details">
+          <span>
+            <%= contribution.puntuation %> points
+          </span>
+          <a href="#">
+            <span>
+              by <%= contribution.user.username %>
+            </span>
+          </a>
+          <a href="#">
+            <span>
+              <%= contribution.created_at %>
+            </span>
+          </a>
+          <span>
+             | 
+          </span>
+          <a href="#">
+            <span>
+              hide
+            </span>
+          </a>
+          <span>
+             | 
+          </span>
+          <a href="#">
+            <span>
+              0 comments
+            </span>
+          </a>
         </td>
       </tr>
       <tr class="spacer" style="height:5px"></tr>
+      </table>
+    <% i += 1 %>
     <% end %>
   </tbody>
-</table>
 
 <br>

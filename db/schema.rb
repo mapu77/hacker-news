@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161025174408) do
+ActiveRecord::Schema.define(version: 20161103160657) do
 
   create_table "contributions", force: :cascade do |t|
     t.text     "title"
-    t.text     "content"
+    t.text     "url"
+    t.text     "text"
     t.integer  "user_id"
+    t.integer  "puntuation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_contributions_on_user_id"

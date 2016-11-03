@@ -6,18 +6,23 @@
 </p>
 
 <p>
-  <strong>Content:</strong>
-  <%= @contribution.content %>
+  <strong>Url:</strong>
+  <%= @contribution.url %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @contribution.text %>
+</p>
+
+<p>
+  <strong>Puntuation:</strong>
+  <%= @contribution.puntuation %>
 </p>
 
 <p>
   <strong>User:</strong>
   <%= @contribution.user %>
-</p>
-
-<p>
-  <strong>Created at:</strong>
-  <%= @contribution.created_at %>
 </p>
 
 <%= link_to 'Edit', edit_contribution_path(@contribution) %> |

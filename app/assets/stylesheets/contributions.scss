@@ -1,7 +1,6 @@
-// Place all the styles related to the contributions controller here.
+// Place all the styles related to the Contributions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
 html {
     margin-top: 0;
     
@@ -32,4 +31,46 @@ html {
         }
     }
     
+}
+
+.title{
+    color: black !important;
+    font-size: 10pt;
+}
+
+.url_post{
+    color: #828282 !important;
+    font-size: 8pt;
+}
+
+.url_post:hover{
+    color: #828282 !important;
+    font-size: 8pt;
+    text-decoration: underline;
+}
+
+.details{
+    color: #828282 !important;
+    font-size: 7pt;
+}
+
+.details a span{
+    color: #828282 !important;
+    font-size: 7pt;
+}
+
+.details a span:hover{
+    color: #828282 !important;
+    font-size: 7pt;
+    text-decoration: underline;
+}
+
+.enum{
+    padding-left:10px;
+    color:#828282;
+    width:30px;
+}
+
+.enum a:active{
+    display:none;
 }

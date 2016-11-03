@@ -4,7 +4,12 @@ class ContributionsController < ApplicationController
   # GET /contributions
   # GET /contributions.json
   def index
-    @contributions = Contribution.all
+    sort = params[:sort]
+    if (sort == 'date')
+      @contributions = Contribution.order(created_at: :desc)
+    else 
+      @contributions = Contribution.order(puntuation: :desc)
+    end
   end
 
   # GET /contributions/1
@@ -25,11 +30,11 @@ class ContributionsController < ApplicationController
   # POST /contributions.json
   def create
     @contribution = Contribution.new(contribution_params)
-
+    @contribution.user_id = 1
+    
     respond_to do |format|
       if @contribution.save
-        format.html { redirect_to @contribution, notice: 'Contribution was successfully created.' }
-        format.json { render :show, status: :created, location: @contribution }
+        format.html { redirect_to action: "index"}
       else
         format.html { render :new }
         format.json { render json: @contribution.errors, status: :unprocessable_entity }
@@ -69,6 +74,6 @@ class ContributionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def contribution_params
-      params.require(:contribution).permit(:title, :content, :user_id, :created_at)
+      params.require(:contribution).permit(:title, :url, :text, :puntuation, :user_id)
     end
 end
