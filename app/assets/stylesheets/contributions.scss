@@ -1,3 +1,35 @@
 // Place all the styles related to the contributions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+html {
+    margin-top: 0;
+    
+    & > body {
+        margin-top: 8px;
+       
+        
+        a {
+            text-decoration: none;
+            
+            & > img {
+                margin-top: 2px;    
+                margin-left: 2px;
+            }
+        }
+        
+        a:hover {
+            color: black;
+            background: none;
+        }
+        
+        a:visited {
+            color: black;
+        }
+        
+        td {
+            padding: 0 0 0 0;
+        }
+    }
+    
+}

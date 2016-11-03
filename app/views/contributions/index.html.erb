@@ -1,33 +1,60 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Contributions</h1>
-
-<table>
+<table id="hnmain" border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef"> 
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Content</th>
-      <th>User</th>
-      <th>Created at</th>
-      <th colspan="3"></th>
+      <td bgcolor="#ff6600">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" >
+          <tbody>
+            <tr>
+              <td style="width:18px;padding-right:4px">
+                <a href="index.html.erb">
+                  <img src="https://news.ycombinator.com/y18.gif" width="18" height="18" style="border:1px white solid;">
+                </a>
+              </td>
+              <td style="line-height:12pt; height:10px;">
+                <span class="pagetop">
+                  <b class="hnname">
+                    <a href=".">Hacker News</a>
+                  </b>
+                  <a href="newest">new</a> | <a href="">comments</a> | <a href="show">show</a> | <a href="">ask</a> | <a href="">jobs</a> | <a href="contributions/new">submit</a>            
+                </span>
+              </td>
+              <td style="text-align:right;padding-right:4px;">
+                <span class="pagetop">
+                  <a href="_form">login</a>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
     </tr>
   </thead>
-
-  <tbody>
-    <% @contributions.each do |contribution| %>
+  <tr style="height:10px"></tr>
+  <tbody border="0" cellpadding="0" cellspacing="0" class="itemlist">
+   <% @contributions.each do |contribution| %>
       <tr>
         <td><%= contribution.title %></td>
-        <td><%= contribution.content %></td>
-        <td><%= contribution.user %></td>
-        <td><%= contribution.created_at %></td>
-        <td><%= link_to 'Show', contribution %></td>
-        <td><%= link_to 'Edit', edit_contribution_path(contribution) %></td>
-        <td><%= link_to 'Destroy', contribution, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>(<%= contribution.content %>)</td>
       </tr>
+      <tr>
+        <td colspan="2"></td>
+        <td class="subtext">
+          
+           <a href="user?id=cheiVia0" class="hnuser">cheiVia0</a> <span class="age"><a href="item?id=12852912">6 hours ago</a></span> <span id="unv_12852912"></span> | <a href="hide?id=12852912&amp;goto=news">hide</a> | <a href="item?id=12852912">8&nbsp;comments</a>              </td>
+          
+          
+          
+          
+          
+          <!--SCORE <span class="score" id="score_12853531"></span> -->
+          ' by '
+          <td><%= contribution.user %></td>
+          <td><%= contribution.created_at %></td>
+        </td>
+      </tr>
+      <tr class="spacer" style="height:5px"></tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Contribution', new_contribution_path %>
