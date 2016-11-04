@@ -15,7 +15,7 @@
                   <b class="hnname">
                     <%= link_to 'Hacker News', contributions_url %>
                   </b>
-                  <%= link_to 'newest', contributions_url(:sort => "date")%> | <a href="">comments</a> | <a href="">show</a> | <a href="">ask</a> | <a href="">jobs</a> | <a href="contributions/new">submit</a> 
+                  <%= link_to 'newest', contributions_url(:sort => "date")%> | <%= link_to 'ask', contributions_url(:type => "text")%> | <a href="contributions/new">submit</a> 
                 </span>
               </td>
               <td style="text-align:right;padding-right:4px;">
@@ -73,7 +73,7 @@
           <span>
              | 
           </span>
-          <a href="#">
+          <a href="contributions/<%= contribution.id %>">
             <span>
               0 comments
             </span>

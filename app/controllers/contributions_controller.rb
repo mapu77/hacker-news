@@ -5,10 +5,13 @@ class ContributionsController < ApplicationController
   # GET /contributions.json
   def index
     sort = params[:sort]
+    type = params[:type]
     if (sort == 'date')
       @contributions = Contribution.order(created_at: :desc)
-    else 
-      @contributions = Contribution.order(puntuation: :desc)
+    elsif (type == 'text')
+      @contributions = Contribution.where(url: nil).order(puntuation: :desc)
+    else
+      @contributions = Contribution.where(text: nil).order(puntuation: :desc)
     end
   end
 
@@ -20,7 +23,7 @@ class ContributionsController < ApplicationController
   # GET /contributions/new
   def new
     @contribution = Contribution.new
-  end
+  end 
 
   # GET /contributions/1/edit
   def edit
@@ -34,7 +37,7 @@ class ContributionsController < ApplicationController
     
     respond_to do |format|
       if @contribution.save
-        format.html { redirect_to action: "index"}
+        format.html { redirect_to action: "index",sort:"date"}
       else
         format.html { render :new }
         format.json { render json: @contribution.errors, status: :unprocessable_entity }
