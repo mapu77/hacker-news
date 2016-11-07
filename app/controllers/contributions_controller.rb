@@ -33,7 +33,7 @@ class ContributionsController < ApplicationController
   # POST /contributions.json
   def create
     @contribution = Contribution.new(contribution_params)
-    @contribution.user_id = 1
+    @contribution.user_id = current_user.id
     
     respond_to do |format|
       if @contribution.save

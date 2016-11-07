@@ -1,36 +1,3 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @contribution.title %>
-</p>
-
-<p>
-  <strong>Url:</strong>
-  
-</p>
-
-<p>
-  <strong>Text:</strong>
-  <%= @contribution.text %>
-</p>
-
-<p>
-  <strong>Puntuation:</strong>
-  
-</p>
-
-<p>
-  <strong>User:</strong>
-  
-</p>
-
-<%= link_to 'Edit', edit_contribution_path(@contribution) %> |
-<%= link_to 'Back', contributions_path %>
-
-
-
-
 <center>
    <table id="hnmain" border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef"> 
     <tr>
@@ -39,7 +6,7 @@
           <tbody>
             <tr>
               <td style="width:18px;padding-right:4px">
-                <a href="index.html.erb">
+                <a href="http://www.ycombinator.com/">
                   <img src="https://news.ycombinator.com/y18.gif" width="18" height="18" style="border:1px white solid;">
                 </a>
               </td>
@@ -53,7 +20,7 @@
               </td>
               <td style="text-align:right;padding-right:4px;">
                 <span class="pagetop">
-                  <a href="_form">login</a>
+                  <%= link_to "login", "/auth/google_oauth2", id: "sign_in" %>
                 </span>
               </td>
             </tr>
@@ -64,564 +31,65 @@
     <tr style="height:10px"></tr>
     <tr>
       <td>
-        <table border="0">
-        <tbody>
-          <tr class="athing" id="12874280">
-      <td align="right" valign="top" class="title">
-        <span class="rank"></span>
-      </td>      
-      <td valign="top" class="votelinks">
-        <center>
-          <a id="up_12874280" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874280&amp;how=up&amp;auth=e6935f67b025df701e39d008c81337ce5f49fbee&amp;goto=item%3Fid%3D12874280" class="nosee"><div class="votearrow" title="upvote"></div></a></center></td><td class="title"><a href="http://www.nytimes.com/2016/11/04/opinion/dalai-lama-behind-our-anxiety-the-fear-of-being-unneeded.html" class="storylink"> <%= @contribution.title %> </a><span class="sitebit comhead"> (<a href="from?site=nytimes.com"><span class="sitestr"> <%= @contribution.url %> </span></a>)</span></td></tr><tr><td colspan="2"></td><td class="subtext">
-        <span class="score" id="score_12874280"> <%= @contribution.puntuation %></span> by <a href="user?id=applecore" class="hnuser"> <%= @contribution.user %>  </a> <span class="age"><a href="item?id=12874280">1 hour ago</a></span> <span id="unv_12874280"> | <a id="un_12874280" onclick="return vote(this, &quot;un&quot;)" href="vote?id=12874280&amp;how=un&amp;auth=e6935f67b025df701e39d008c81337ce5f49fbee&amp;goto=item%3Fid%3D12874280">unvote</a></span> | <a href="hide?id=12874280&amp;goto=item%3Fid%3D12874280&amp;auth=e6935f67b025df701e39d008c81337ce5f49fbee">hide</a> | <a href="https://hn.algolia.com/?query=Dalai%20Lama%3A%20Behind%20Our%20Anxiety%2C%20the%20Fear%20of%20Being%20Unneeded&amp;sort=byDate&amp;dateRange=all&amp;type=story&amp;storyText=false&amp;prefix&amp;page=0" class="hnpast">past</a> | <a href="https://www.google.com/search?q=Dalai%20Lama%3A%20Behind%20Our%20Anxiety%2C%20the%20Fear%20of%20Being%20Unneeded">web</a> | <a href="item?id=12874280">51&nbsp;comments</a> | <a href="fave?id=12874280&amp;auth=e6935f67b025df701e39d008c81337ce5f49fbee">favorite</a>            
-      </td>
-    </tr>
-    <tr style="height:10px"></tr>
-    <tr>
-      <td colspan="2"></td>
-      <td>
-          <form method="post" action="comment">
-            <input type="hidden" name="parent" value="12874280">
-            <input type="hidden" name="goto" value="item?id=12874280">
-            <input type="hidden" name="hmac" value="e6b06443e4e124a0c090f27824ff735d4123e169">
-            <textarea name="text" rows="6" cols="60"></textarea>
-            <br><br>
-            <span class="subtext">If you haven't already, would you mind reading
-            about HN's <a href="newswelcome.html"><u>approach to comments</u></a>
-            and <a href="newsguidelines.html"><u>site guidelines</u></a>?
+        <table id="table_in" border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
+        <tr>
+          <td class="enum"><a href="#"><img width="10" height="10" src="../heart.gif"></img></a></td>
+          <td class="title">
+            <a> <%= @contribution.title %></a>
+            <% if @contribution.url!=nil %>
+            <span>
+              <a class="url_post" href="<%=@contribution.url %>">(<%= @contribution.url %>)</a>
             </span>
-            <br><br>
-            <input type="submit" value="add comment">
-          </form>
-      </td>
-    </tr>
-  </tbody>
-  </table>
+            <%end%>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="details">
+            <span><%= @contribution.puntuation %> points</span>
+            <span><a href="#">by <%= @contribution.user.name %></a></span>
+            <a href="#">
+              <span>
+                <%= @contribution.created_at %>
+              </span>
+            </a>
+            <span>
+               | 
+            </span>
+            <a href="#">
+              <span>
+                hide
+              </span>
+            </a>
+            <span>
+               | 
+            </span>
+            <a href="contributions/<%= @contribution.id %>">
+              <span>
+                0 comments
+              </span>
+            </a>
+          </td>
+        </tr>
+        <tr style="height:10px"></tr>
+        <tr>
+          <td colspan="1"></td>
+          <td>
+            <form method="post" action="comment">
+              <input type="hidden" name="parent" value="12874280">
+              <input type="hidden" name="goto" value="item?id=12874280">
+              <input type="hidden" name="hmac" value="e6b06443e4e124a0c090f27824ff735d4123e169">
+              <textarea name="text" rows="6" cols="60"></textarea>
+              <br><br>
+              <input type="submit" value="add comment">
+            </form>
+          </td>
+        </tr>
+      </table>
+      
+     
+     
+      
+      
   <br><br>
-  <!--<table border="0" class="comment-tree">  <tbody><tr class="athing comtr " id="12874530"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874530" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874530&amp;how=up&amp;auth=dd3065abce83ac6dda3c769733710532930ac5bf&amp;goto=item%3Fid%3D12874280#12874530"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=sjclemmy" class="hnuser">sjclemmy</a> <span class="age"><a href="item?id=12874530">40 minutes ago</a></span> <span id="unv_12874530"></span><span class="par"></span> <a class="togg" n="24" href="javascript:void(0)" onclick="return toggle(12874530)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">It's odd, the world is the safest and most stable that it has ever been. There has never been a better time to be a human being, and yet, the media and certain politicians would have you believe that there is disaster after disaster, terrorist plots afoot around every corner, feeding your fear day after day.
-If ever there was an example of the devil at work, then that's it(and I'm not even religious).<p>Uncertainty about the future has always been the same.</p><p>Don't listen to those devils.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874530&amp;goto=item%3Fid%3D12874280%2312874530">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874645"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874645" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874645&amp;how=up&amp;auth=d8f1bdcd475404242a26e2dbaea95bab3e09772f&amp;goto=item%3Fid%3D12874280#12874645"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=J_eastburn" class="hnuser">J_eastburn</a> <span class="age"><a href="item?id=12874645">26 minutes ago</a></span> <span id="unv_12874645"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874645)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Likely a result of their need to be needed. In a world in which fewer bad things happen and people are bored by the mundane goodness of daily life, why wouldn't a news organization seek those stories 24 hours a day?<p>I think we blame "the media" as if the people doing it are bad, ignoring the real structural challenges to being positive.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874645&amp;goto=item%3Fid%3D12874280%2312874645">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874654"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874654" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874654&amp;how=up&amp;auth=e6285ce6b65ee7fcc61ad8cbcee405cd27967181&amp;goto=item%3Fid%3D12874280#12874654"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=kamac" class="hnuser">kamac</a> <span class="age"><a href="item?id=12874654">26 minutes ago</a></span> <span id="unv_12874654"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874654)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">&gt; There has never been a better time to be a human being, and yet, the media and certain politicians would have you believe that there is disaster after disaster, terrorist plots afoot around every corner, feeding your fear day after day<p>Could you point me to a quote from the article that tries to make us believe that there is a disaster after disaster?</p><p>As far as I know, the article seems to have an objective opinion. It mentions that it's bad, but it's much better than it used to be. Which is basically your point.</p><p>Or was your opinion unrelated to the article?<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874654&amp;goto=item%3Fid%3D12874280%2312874654">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874542"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874542" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874542&amp;how=up&amp;auth=e045ee39fe861712910e50e17814ec5b5d76defd&amp;goto=item%3Fid%3D12874280#12874542"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=shp0ngle" class="hnuser">shp0ngle</a> <span class="age"><a href="item?id=12874542">38 minutes ago</a></span> <span id="unv_12874542"></span><span class="par"></span> <a class="togg" n="14" href="javascript:void(0)" onclick="return toggle(12874542)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">If you are rich and already in the top class, then maybe.<p>But it's not terribly good for the middle class.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874542&amp;goto=item%3Fid%3D12874280%2312874542">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874564"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874564" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874564&amp;how=up&amp;auth=4bc3fc039386993a2388544060a902c9aace4072&amp;goto=item%3Fid%3D12874280#12874564"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=Raphmedia" class="hnuser">Raphmedia</a> <span class="age"><a href="item?id=12874564">35 minutes ago</a></span> <span id="unv_12874564"></span><span class="par"></span> <a class="togg" n="2" href="javascript:void(0)" onclick="return toggle(12874564)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">If you are rich and already in the middle class, then maybe.<p>But it's not terribly good for the poor class.</p><p>...</p><p>Don't let wealth create unneeded divides. When you enter the mindset of "us vs. them" you will always be unhappy.</p><p>Edit: I grew up in a very poor community and our family yearly income was well under the poverty line (20,209 in Canada). The middle class has always been the richest people in the world for me. Now that I am part of it, I don't feel rich at all. However, I <i>know</i> that I am lucky. It's question of perception. Don't let them divide and conquer you for political gains.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874564&amp;goto=item%3Fid%3D12874280%2312874564">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874691"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="120"></td><td valign="top" class="votelinks"><center><a id="up_12874691" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874691&amp;how=up&amp;auth=99aa6e7bb203582d62e060a340f1bdb5bef54c88&amp;goto=item%3Fid%3D12874280#12874691"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=FussyZeus" class="hnuser">FussyZeus</a> <span class="age"><a href="item?id=12874691">21 minutes ago</a></span> <span id="unv_12874691"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874691)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">While I agree you should try to be content with what you have, there's nothing wrong with aspiring to more. The middle class is being eroded away leaving us with a much larger group of have nots, and an increasingly hard to enter group of haves.<p>I wouldn't have a problem with this except a lot of the haves are in that group via genetic lottery, nothing that they actually did or earned.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874691&amp;goto=item%3Fid%3D12874280%2312874691">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-      <tr class="athing comtr " id="12874819"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874819" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874819&amp;how=up&amp;auth=b8b36933adf1f4ef974cbe3f21c3a60e71587cba&amp;goto=item%3Fid%3D12874280#12874819"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=ajkjk" class="hnuser">ajkjk</a> <span class="age"><a href="item?id=12874819">3 minutes ago</a></span> <span id="unv_12874819"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874819)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">As far as I can tell, the qualify-of-life of the middle class is astoundingly high compared to almost-everyone in almost-all of history.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874819&amp;goto=item%3Fid%3D12874280%2312874819">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874759"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874759" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874759&amp;how=up&amp;auth=c4d85799f7ed6fd11e7768931c309e4321ba1788&amp;goto=item%3Fid%3D12874280#12874759"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=paulddraper" class="hnuser">paulddraper</a> <span class="age"><a href="item?id=12874759">12 minutes ago</a></span> <span id="unv_12874759"></span><span class="par"></span> <a class="togg" n="2" href="javascript:void(0)" onclick="return toggle(12874759)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">How many middle-class people had instant access to 90% of the human knowledge and entertainment 30 years ago?<p>How many have instant access right this second?</p><p>Life is far easier and more convenient than it used to be. Most of the middle-class live as better than kings of past centuries.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874759&amp;goto=item%3Fid%3D12874280%2312874759">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874824"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="120"></td><td valign="top" class="votelinks"><center><a id="up_12874824" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874824&amp;how=up&amp;auth=855b1da2f5c3687798ec84c6623776e99e5920c0&amp;goto=item%3Fid%3D12874280#12874824"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=smacktoward" class="hnuser">smacktoward</a> <span class="age"><a href="item?id=12874824">3 minutes ago</a></span> <span id="unv_12874824"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874824)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00"><i>&gt;  How many middle-class people had instant access to 90% of the human knowledge and entertainment 30 years ago?</i><p>But at the same time as they got that, they <i>lost</i> access to things their parents took for granted like job security and reliable health care and thriving, stable communities. Getting access to Wikipedia is great, but it does not automatically balance that scale.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874824&amp;goto=item%3Fid%3D12874280%2312874824">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-      <tr class="athing comtr " id="12874578"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874578" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874578&amp;how=up&amp;auth=a25836adc70ab0e259773017441bf172326f0b0d&amp;goto=item%3Fid%3D12874280#12874578"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=sjclemmy" class="hnuser">sjclemmy</a> <span class="age"><a href="item?id=12874578">34 minutes ago</a></span> <span id="unv_12874578"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874578)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Yet you have enough food, shelter, health. My comparison is about the whole of human history.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874578&amp;goto=item%3Fid%3D12874280%2312874578">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874577"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874577" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874577&amp;how=up&amp;auth=a593452dd733fff6f42ab1fb94f721c6bc2fead1&amp;goto=item%3Fid%3D12874280#12874577"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=burke" class="hnuser">burke</a> <span class="age"><a href="item?id=12874577">34 minutes ago</a></span> <span id="unv_12874577"></span><span class="par"></span> <a class="togg" n="5" href="javascript:void(0)" onclick="return toggle(12874577)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">It may not be as good as it was 50 years ago, but there's a case to be made that it's nearly as good as it ever was prior to 1900.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874577&amp;goto=item%3Fid%3D12874280%2312874577">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874650"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="120"></td><td valign="top" class="votelinks"><center><a id="up_12874650" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874650&amp;how=up&amp;auth=c638ea3de1134122a95882e765359d3af27b01c9&amp;goto=item%3Fid%3D12874280#12874650"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=sjclemmy" class="hnuser">sjclemmy</a> <span class="age"><a href="item?id=12874650">26 minutes ago</a></span> <span id="unv_12874650"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874650)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">It's better in every way. Racism, sexism, apartheid, LGBT, corporal punishment...<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874650&amp;goto=item%3Fid%3D12874280%2312874650">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-          <tr class="athing comtr " id="12874729"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="120"></td><td valign="top" class="votelinks"><center><a id="up_12874729" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874729&amp;how=up&amp;auth=70501426d8ead36efdb07df2f50d6d8d03e38c91&amp;goto=item%3Fid%3D12874280#12874729"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=hx87" class="hnuser">hx87</a> <span class="age"><a href="item?id=12874729">16 minutes ago</a></span> <span id="unv_12874729"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874729)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">With few exceptions, human life is better in 2016 than in 1966.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874729&amp;goto=item%3Fid%3D12874280%2312874729">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874612"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="120"></td><td valign="top" class="votelinks"><center><a id="up_12874612" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874612&amp;how=up&amp;auth=711df246dcacf60243db27b115b5a9b3408ccaff&amp;goto=item%3Fid%3D12874280#12874612"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=sbov" class="hnuser">sbov</a> <span class="age"><a href="item?id=12874612">30 minutes ago</a></span> <span id="unv_12874612"></span><span class="par"></span> <a class="togg" n="2" href="javascript:void(0)" onclick="return toggle(12874612)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">&gt; It may not be as good as it was 50 years ago<p>If you're a white male.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874612&amp;goto=item%3Fid%3D12874280%2312874612">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874807"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="160"></td><td valign="top" class="votelinks"><center><a id="up_12874807" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874807&amp;how=up&amp;auth=eb9d1c955e2165b5e371112a19927c4d121224c6&amp;goto=item%3Fid%3D12874280#12874807"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=zardo" class="hnuser">zardo</a> <span class="age"><a href="item?id=12874807">5 minutes ago</a></span> <span id="unv_12874807"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874807)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Who wasn't sent to kill or be killed in South East Asia against your will.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874807&amp;goto=item%3Fid%3D12874280%2312874807">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874764"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874764" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874764&amp;how=up&amp;auth=e86b02a2dcba8395b40e4aa0835885dc80424795&amp;goto=item%3Fid%3D12874280#12874764"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=hx87" class="hnuser">hx87</a> <span class="age"><a href="item?id=12874764">11 minutes ago</a></span> <span id="unv_12874764"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874764)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Not terribly good, but certainly /better/.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874764&amp;goto=item%3Fid%3D12874280%2312874764">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874630"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874630" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874630&amp;how=up&amp;auth=96a9a0cd09d89f1d34c6f165e3f02821a2a688de&amp;goto=item%3Fid%3D12874280#12874630"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=lifeisstillgood" class="hnuser">lifeisstillgood</a> <span class="age"><a href="item?id=12874630">28 minutes ago</a></span> <span id="unv_12874630"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874630)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">But it is terribly, terribly <i>good</i> for the middle class.<p>Penicillin, socialised medicine, low violent crime rates (#), no need to hunt our food, no need to build our own shelters or rub sticks together to make fire.</p><p>The finest actors of this and past generations wait for me in my living room while I pee, something that past kings could not even achieve, I travel vast continents in the time it takes for a long sleep, I was the first of my father's line to go to University as a youth.  As a consequence I can read and write (almost coherent sentences).  The energy I consume per day would be equal to 40 slaves but I enslave no-one (directly) [##]</p><p>Maybe we can make an argument that for the current white western male middle class, it is not as good as it was 50 years ago, but perhaps Frank Sinatra would like an iPhone, or modern throat surgery?  I do know Sammy Davis Jr would prefer the Civil Rights he would enjoy in Vegas today than in the 50s.</p><p>Compared to only a hundred and fifty years ago we are amazingly better off in every measurable way, compared to a thousand its almost shameful.  If that does not make us happy, that's a different issue.  After all we were only promised the <i>pursuit</i> of happiness.</p><p>[#] See Steven Pinkers "Better Angels of our nature"</p><p>[##] See Prof. David Mackay - <a href="http://www.inference.eng.cam.ac.uk/sustainable/book/tex/sewtha.pdf" rel="nofollow">http://www.inference.eng.cam.ac.uk/sustainable/book/tex/sewt...</a><span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874630&amp;goto=item%3Fid%3D12874280%2312874630">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-      <tr class="athing comtr " id="12874717"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874717" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874717&amp;how=up&amp;auth=34995c41a841cbc5d200b82080c9e70af423bf92&amp;goto=item%3Fid%3D12874280#12874717"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=wefarrell" class="hnuser">wefarrell</a> <span class="age"><a href="item?id=12874717">18 minutes ago</a></span> <span id="unv_12874717"></span><span class="par"></span> <a class="togg" n="4" href="javascript:void(0)" onclick="return toggle(12874717)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c5a">If you're referring to safety from physical harm you're correct. But I'd argue that the erosion of many social safety nets has left a lot of people less economically secure.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874717&amp;goto=item%3Fid%3D12874280%2312874717">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874732"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874732" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874732&amp;how=up&amp;auth=ca78db3638cf4031f0371af5a7876311c4ed1402&amp;goto=item%3Fid%3D12874280#12874732"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=wyldfire" class="hnuser">wyldfire</a> <span class="age"><a href="item?id=12874732">15 minutes ago</a></span> <span id="unv_12874732"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874732)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">But "economic security" as relative to their peers at this time is very different from the worst case for all their ancestors.  Perhaps even the worst off are much better off now.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874732&amp;goto=item%3Fid%3D12874280%2312874732">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874742"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874742" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874742&amp;how=up&amp;auth=bd2223bf8b96b90bd4b2da20736efee05f9fff2f&amp;goto=item%3Fid%3D12874280#12874742"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=sjclemmy" class="hnuser">sjclemmy</a> <span class="age"><a href="item?id=12874742">14 minutes ago</a></span> <span id="unv_12874742"></span><span class="par"></span> <a class="togg" n="2" href="javascript:void(0)" onclick="return toggle(12874742)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">In a comment thread on a forum I am offering a non-nuanced binary view.<p>How economically secure does a hunter gatherer or subsistence farmer feel, with no medicine, lots of superstitious practices and complete dependence on the crops/weather... etc.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874742&amp;goto=item%3Fid%3D12874280%2312874742">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874805"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="120"></td><td valign="top" class="votelinks"><center><a id="up_12874805" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874805&amp;how=up&amp;auth=fa90ac179e7edf7a8c0ef31641846f41efd166f3&amp;goto=item%3Fid%3D12874280#12874805"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=smacktoward" class="hnuser">smacktoward</a> <span class="age"><a href="item?id=12874805">5 minutes ago</a></span> <span id="unv_12874805"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874805)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">The problem is that satisfaction is completely relative.<p>A hunter/gatherer with no medicine and loads of superstitions doesn't feel anxious when <i>everybody else</i> is a hunter/gatherer with no medicine and loads of superstitions too. They feel anxious when they are that way, but they can look over a fence and see other people living in nice houses and living forty years longer than they do.</p><p>Progress is not uniformly distributed, and even in "advanced" societies there are wide and growing gaps between a small, privileged few and the rest who have to make do with much less. It's completely understandable why that would make people anxious, even if they have access to Netflix.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874805&amp;goto=item%3Fid%3D12874280%2312874805">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874804"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874804" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874804&amp;how=up&amp;auth=bfe4f7acf84a88cde334966fc87bee416a25b156&amp;goto=item%3Fid%3D12874280#12874804"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=rm_-rf_slash" class="hnuser">rm_-rf_slash</a> <span class="age"><a href="item?id=12874804">5 minutes ago</a></span> <span id="unv_12874804"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874804)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c73">I think you are dangerously wrong.<p>Never before has there been a point in time where:</p><p>-A determined individual with the right equipment could shut down the information network our society almost exclusively relies upon.</p><p>-Weapons created for war could destroy the conditions for human civilization across the entire planet.</p><p>-Everyday consumption keeps people complacent while the artificially low costs contribute to and accelerate the pace of climate change, which could be almost as bad as nuclear Armageddon.</p><p>-The speed and scale of travel is such that a disease could reach every corner of the earth and kill millions if not billions of human beings (or our food!) no matter where they live or where the disease came from.</p><p>I'm not a pessismist about humanity's future but if you ignore these things you are only fooling yourself.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874804&amp;goto=item%3Fid%3D12874280%2312874804">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874649"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874649" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874649&amp;how=up&amp;auth=8227a942628a968b133556260c3bcedfbffa1664&amp;goto=item%3Fid%3D12874280#12874649"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=narrator" class="hnuser">narrator</a> <span class="age"><a href="item?id=12874649">26 minutes ago</a></span> <span id="unv_12874649"></span><span class="par"></span> <a class="togg" n="2" href="javascript:void(0)" onclick="return toggle(12874649)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c88">I was in Paris a little while ago and people were saying that Americans were canceling because of fear of terrorism because of the recent attacks.  That just shows that Americans can't do math, because they have far higher odds of getting in a fatal car accident on vacation then being victims of terrorism.  The probability of being a victim of terrorism in France is truly negligible.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874649&amp;goto=item%3Fid%3D12874280%2312874649">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874750"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874750" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874750&amp;how=up&amp;auth=b91c2abe8fe94c434076936f92d393e38214e519&amp;goto=item%3Fid%3D12874280#12874750"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=knz" class="hnuser">knz</a> <span class="age"><a href="item?id=12874750">13 minutes ago</a></span> <span id="unv_12874750"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874750)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">I agree with your sentiment but this is hardly limited to Americans - I've read and heard many Europeans discuss avoiding American all together due to the perceived risk of gang shootings, mass shootings, terrorism, and run in's with the TSA. I suspect that a small percentage of travellers modify their plans due to poor risk assessment skills but there are many reasons tourism may be down in some areas.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874750&amp;goto=item%3Fid%3D12874280%2312874750">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874784"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874784" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874784&amp;how=up&amp;auth=c328e5770d8bdb803a07fc0d01f7e117abfb261b&amp;goto=item%3Fid%3D12874280#12874784"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=trynumber9" class="hnuser">trynumber9</a> <span class="age"><a href="item?id=12874784">8 minutes ago</a></span> <span id="unv_12874784"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874784)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">"In America today, compared with 50 years ago, three times as many working-age men are completely outside the work"<p>I was taught that work is one of only two uses for a man. That other being a good father. It must be wrong but it is an unshakable thought. I can't imagine how I would hate myself if I couldn't provide. This fear, even though I have no dependents, is far greater than my fear of being unneeded.</p><p>Maybe it's different for other people.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874784&amp;goto=item%3Fid%3D12874280%2312874784">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874475"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874475" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874475&amp;how=up&amp;auth=9fa0d99f3820a37d8e60a75cbf340883b864d5bd&amp;goto=item%3Fid%3D12874280#12874475"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=neves" class="hnuser">neves</a> <span class="age"><a href="item?id=12874475">46 minutes ago</a></span> <span id="unv_12874475"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874475)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">I'd like to read everyday articles like these. We are downed in hateful speech. Would feel better reading something like it.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874475&amp;goto=item%3Fid%3D12874280%2312874475">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874489"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874489" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874489&amp;how=up&amp;auth=cf47d4bd6990a1d085a1aa56916c2eab963811fb&amp;goto=item%3Fid%3D12874280#12874489"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=Kenji" class="hnuser">Kenji</a> <span class="age"><a href="item?id=12874489">44 minutes ago</a></span> <span id="unv_12874489"></span><span class="par"></span> <a class="togg" n="4" href="javascript:void(0)" onclick="return toggle(12874489)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00"><i>And although all the world’s major faiths teach love</i><p>That's not what I see when I look into the holy books. Let's be frank here, faith and religion are still <i>the</i> tools to turn ordinary people into genocidal maniacs.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874489&amp;goto=item%3Fid%3D12874280%2312874489">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874556"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874556" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874556&amp;how=up&amp;auth=649eb95b9a01169050ad24f31fb7b01987d98f3a&amp;goto=item%3Fid%3D12874280#12874556"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=jlj" class="hnuser">jlj</a> <span class="age"><a href="item?id=12874556">36 minutes ago</a></span> <span id="unv_12874556"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874556)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">You are confusing religion used for political and self-serving means, with the selflessness teachings that are common with many holy books including Buddhism and Christianity.  It is humans that corrupt religion when we want to be gods or worship and obsess about the wrong idols.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874556&amp;goto=item%3Fid%3D12874280%2312874556">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874752"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874752" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874752&amp;how=up&amp;auth=8526e2860dfc76647a138803401a1f1e3c1a6aeb&amp;goto=item%3Fid%3D12874280#12874752"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=hx87" class="hnuser">hx87</a> <span class="age"><a href="item?id=12874752">13 minutes ago</a></span> <span id="unv_12874752"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874752)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Religions are more than their holy books. The Old Testatment preaches a hateful and parochial worldview, but the vast majority of Jews and Christians are perfectly normal human beings.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874752&amp;goto=item%3Fid%3D12874280%2312874752">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874604"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874604" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874604&amp;how=up&amp;auth=b35458d8ebc8589011ab98b7ab463dbd1f27e62f&amp;goto=item%3Fid%3D12874280#12874604"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=brightball" class="hnuser">brightball</a> <span class="age"><a href="item?id=12874604">31 minutes ago</a></span> <span id="unv_12874604"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874604)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00"><i>sigh</i><p>Which "holy books"?<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874604&amp;goto=item%3Fid%3D12874280%2312874604">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-      <tr class="athing comtr " id="12874568"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874568" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874568&amp;how=up&amp;auth=2a20e8970231086617244cbe1a87dfef2301579d&amp;goto=item%3Fid%3D12874280#12874568"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=dschiptsov" class="hnuser">dschiptsov</a> <span class="age"><a href="item?id=12874568">35 minutes ago</a></span> <span id="unv_12874568"></span><span class="par"></span> <a class="togg" n="2" href="javascript:void(0)" onclick="return toggle(12874568)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c5a">That's gross oversimplification for western amateur audiences. His Holiness is trying to speak the language of common western consumer.<p>Behind our anxiety is ignorance. Period. Ignorance is described as a veil that obscures the view of <i>what is</i> from so-called primordial awareness or Atman, if you wish - the aspect of the whole (Brahman) in us. (The Buddha explicitly rejected the notion of Atman, but numerous later Indian (tantric) writers messed everything up). It is like continuous day-dreaming. The meaning of Awakening is literal awakening from this habitual delusional day-dreaming to what is.</p><p>Most of our fears are due to misapprehension of reality, like classic mistaking a rope for a snake, and attaching to (and hence the fear of losing) that illusory my self, which is nothing, but an appearance to ignorant and confused introspection.</p><p>This crude formulation is as old as Upanishads.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874568&amp;goto=item%3Fid%3D12874280%2312874568">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874615"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874615" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874615&amp;how=up&amp;auth=b8d3ede0df8a0cef2be48cdbaf93f639fa2a3ffb&amp;goto=item%3Fid%3D12874280#12874615"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=hosh" class="hnuser">hosh</a> <span class="age"><a href="item?id=12874615">29 minutes ago</a></span> <span id="unv_12874615"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874615)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">I agree. Hard not to when practicing insight leads to those same conclusions.<p>Having said that, I think this perspective is worth examining. I usually find an example of the emotional energy and start probing it to see if it holds up -- that is to say, do I really sense a fear whose encoded story is 'to not be needed'? How does that flow? Maybe it is there and maybe it isn't.</p><p>This is a different perspective, also interesting and worth examining: <a href="http://www.cracked.com/blog/6-reasons-trumps-rise-that-no-one-talks-about/" rel="nofollow">http://www.cracked.com/blog/6-reasons-trumps-rise-that-no-on...</a><span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874615&amp;goto=item%3Fid%3D12874280%2312874615">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-      <tr class="athing comtr " id="12874407"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874407" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874407&amp;how=up&amp;auth=fc06805b02b887fb588dea9c0155c1b77faaf58c&amp;goto=item%3Fid%3D12874280#12874407"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=SeriousM" class="hnuser">SeriousM</a> <span class="age"><a href="item?id=12874407">55 minutes ago</a></span> <span id="unv_12874407"></span><span class="par"></span> <a class="togg" n="5" href="javascript:void(0)" onclick="return toggle(12874407)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c73">Thank you for the paywall link<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874407&amp;goto=item%3Fid%3D12874280%2312874407">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874412"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874412" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874412&amp;how=up&amp;auth=9cd7c221a2a1a62a4147b3d066ebe65fbf00ee3d&amp;goto=item%3Fid%3D12874280#12874412"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=hellogoodbyeeee" class="hnuser">hellogoodbyeeee</a> <span class="age"><a href="item?id=12874412">54 minutes ago</a></span> <span id="unv_12874412"></span><span class="par"></span> <a class="togg" n="4" href="javascript:void(0)" onclick="return toggle(12874412)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Click the "web" button under it, then select the result from the Google search<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874412&amp;goto=item%3Fid%3D12874280%2312874412">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874432"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874432" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874432&amp;how=up&amp;auth=ca03ce9288f1ec82ca54776f0ea469da400ace61&amp;goto=item%3Fid%3D12874280#12874432"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=flipp3r" class="hnuser">flipp3r</a> <span class="age"><a href="item?id=12874432">51 minutes ago</a></span> <span id="unv_12874432"></span><span class="par"></span> <a class="togg" n="3" href="javascript:void(0)" onclick="return toggle(12874432)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Did you actually try this yourself? It presents a login page for me when I do this.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874432&amp;goto=item%3Fid%3D12874280%2312874432">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874438"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="120"></td><td valign="top" class="votelinks"><center><a id="up_12874438" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874438&amp;how=up&amp;auth=398f387176f424f90da75e6ecf6ae782d9a6c569&amp;goto=item%3Fid%3D12874280#12874438"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=toomuchtodo" class="hnuser">toomuchtodo</a> <span class="age"><a href="item?id=12874438">51 minutes ago</a></span> <span id="unv_12874438"></span><span class="par"></span> <a class="togg" n="2" href="javascript:void(0)" onclick="return toggle(12874438)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Incognito mode worked for me.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874438&amp;goto=item%3Fid%3D12874280%2312874438">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874463"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="160"></td><td valign="top" class="votelinks"><center><a id="up_12874463" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874463&amp;how=up&amp;auth=aa9240e549a99bbc81245f301e892e20e62bf796&amp;goto=item%3Fid%3D12874280#12874463"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=thisisandyok" class="hnuser">thisisandyok</a> <span class="age"><a href="item?id=12874463">47 minutes ago</a></span> <span id="unv_12874463"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874463)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Me too, thanks for mentioning that<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874463&amp;goto=item%3Fid%3D12874280%2312874463">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-            <tr class="athing comtr " id="12874451"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874451" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874451&amp;how=up&amp;auth=aadbbeb04212b77be306d447b58fda0e708748ab&amp;goto=item%3Fid%3D12874280#12874451"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=quickben" class="hnuser">quickben</a> <span class="age"><a href="item?id=12874451">49 minutes ago</a></span> <span id="unv_12874451"></span><span class="par"></span> <a class="togg" n="5" href="javascript:void(0)" onclick="return toggle(12874451)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c73">Paywalled hard. Direct link, web&gt;google, etc.<p>See I think Dalai Lama is wrong in this case; behind my current anxiety is mainly the fear that soon, all HN subs will be paywalled :)</p><p>On an unrelated subject: isn't this supposed to be penalized by Google? Different content for their bot vs human users?<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874451&amp;goto=item%3Fid%3D12874280%2312874451">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874482"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874482" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874482&amp;how=up&amp;auth=729cd5d2b9db8c078b5c0fd2544325626962da29&amp;goto=item%3Fid%3D12874280#12874482"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=kerneltime" class="hnuser">kerneltime</a> <span class="age"><a href="item?id=12874482">45 minutes ago</a></span> <span id="unv_12874482"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874482)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Or in other words free readers will be unneeded/unwanted by quality content...<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874482&amp;goto=item%3Fid%3D12874280%2312874482">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874509"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874509" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874509&amp;how=up&amp;auth=ee779db4bb2da2c06b51df55b7d7865b82f8a2f4&amp;goto=item%3Fid%3D12874280#12874509"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=AvenueIngres" class="hnuser">AvenueIngres</a> <span class="age"><a href="item?id=12874509">41 minutes ago</a></span> <span id="unv_12874509"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874509)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Here is a link: <a href="https://archive.fo/Ro6Vc" rel="nofollow">https://archive.fo/Ro6Vc</a><span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874509&amp;goto=item%3Fid%3D12874280%2312874509">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874481"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874481" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874481&amp;how=up&amp;auth=5d5992dead4502e0d189fe490f83271110c422d4&amp;goto=item%3Fid%3D12874280#12874481"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=axit" class="hnuser">axit</a> <span class="age"><a href="item?id=12874481">45 minutes ago</a></span> <span id="unv_12874481"></span><span class="par"></span> <a class="togg" n="2" href="javascript:void(0)" onclick="return toggle(12874481)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Incognito worked for me<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874481&amp;goto=item%3Fid%3D12874280%2312874481">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874487"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874487" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874487&amp;how=up&amp;auth=e9ed91f27e5fe0058bc3fc2e13c7c17e09c8806c&amp;goto=item%3Fid%3D12874280#12874487"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=quickben" class="hnuser">quickben</a> <span class="age"><a href="item?id=12874487">44 minutes ago</a></span> <span id="unv_12874487"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874487)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Oh, thanks.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874487&amp;goto=item%3Fid%3D12874280%2312874487">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874676"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874676" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874676&amp;how=up&amp;auth=9c7a0aaef28570f1235f2e1a53ba9b23674bb1d4&amp;goto=item%3Fid%3D12874280#12874676"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=ChefDenominator" class="hnuser">ChefDenominator</a> <span class="age"><a href="item?id=12874676">23 minutes ago</a></span> <span id="unv_12874676"></span><span class="par"></span> <a class="togg" n="4" href="javascript:void(0)" onclick="return toggle(12874676)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c88">I have asked almost everyone I know if they have a subscription to:<p>nytimes.com
-wsj.com
-forbes.com</p><p>Guess what? I don't even have any minor acquaintances with subscriptions to these sites.</p><p>So how come every single aggregator that I visit has articles from these sites commonly among the top and featured positions?<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874676&amp;goto=item%3Fid%3D12874280%2312874676">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874825"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874825" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874825&amp;how=up&amp;auth=12bd26d0adbb71989c1f0ef2e3c353aa25215242&amp;goto=item%3Fid%3D12874280#12874825"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=tspike" class="hnuser">tspike</a> <span class="age"><a href="item?id=12874825">3 minutes ago</a></span> <span id="unv_12874825"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874825)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">Because, in the case of the first two, they are offering some of the only real journalism that remains. The latter is just fantastically adept at churning out gobs of clickbait.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874825&amp;goto=item%3Fid%3D12874280%2312874825">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874755"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874755" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874755&amp;how=up&amp;auth=66d88c7bf8cd0b9450b8a714625635d90d431401&amp;goto=item%3Fid%3D12874280#12874755"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=ChefDenominator" class="hnuser">ChefDenominator</a> <span class="age"><a href="item?id=12874755">13 minutes ago</a></span> <span id="unv_12874755"></span><span class="par"></span> <a class="togg" n="2" href="javascript:void(0)" onclick="return toggle(12874755)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c88">Well how about that: an instant down-vote!<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874755&amp;goto=item%3Fid%3D12874280%2312874755">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874823"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="80"></td><td valign="top" class="votelinks"><center><a id="up_12874823" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874823&amp;how=up&amp;auth=c4290debbea2ce08832bffaf694af5694c185f5e&amp;goto=item%3Fid%3D12874280#12874823"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=komali2" class="hnuser">komali2</a> <span class="age"><a href="item?id=12874823">3 minutes ago</a></span> <span id="unv_12874823"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874823)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">It's not going to help if you bring up downvotes, check the site rules.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874823&amp;goto=item%3Fid%3D12874280%2312874823">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874468"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874468" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874468&amp;how=up&amp;auth=84f1f3f05b64e12f3191602c21e2989d20d35e8c&amp;goto=item%3Fid%3D12874280#12874468"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=AvenueIngres" class="hnuser">AvenueIngres</a> <span class="age"><a href="item?id=12874468">46 minutes ago</a></span> <span id="unv_12874468"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874468)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="cdd">Tibetan bigots need to accept Han Chinese refugees. Period.<p>To solve this issue, a response must be found and applied at an individual level so we can calm their fear of not being needed anymore. Of course, the cultural genocide thing is just a pretext they are using because they don't like Han Chinese.</p><p>"We need to build bridges. Not walls." - Isaac Newton<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874468&amp;goto=item%3Fid%3D12874280%2312874468">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874702"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="0"></td><td valign="top" class="votelinks"><center><a id="up_12874702" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874702&amp;how=up&amp;auth=0634b50876db6435b36d1b2364ed121707509d52&amp;goto=item%3Fid%3D12874280#12874702"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=forgottenpass" class="hnuser">forgottenpass</a> <span class="age"><a href="item?id=12874702">21 minutes ago</a></span> <span id="unv_12874702"></span><span class="par"></span> <a class="togg" n="4" href="javascript:void(0)" onclick="return toggle(12874702)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c9c">For as prolific as he is, the Dalai Lama doesn't pop up on my radar much.  But here he is in the NY Times opinion pages sharing monism.<p><i>This speaks to a broader human truth: We all need to be needed.</i></p><p>There's an old but relevant perspective on life.  We value ourselves by how much we can contribute to the lives of others.</p><p>Still though, I'm left wondering, what combination of forces summed up to this particular writing crossing my path?</p><p><i>Leaders need to recognize that a compassionate society must create a wealth of opportunities for meaningful work</i></p><p>Oh, there it is.  A message about the importance interpersonal relationships to self worth is co-opted and reduced to nothing more than calling on the government to make sure everyone is feeding their 40 hours into the system.<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874702&amp;goto=item%3Fid%3D12874280%2312874702">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-        <tr class="athing comtr " id="12874815"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874815" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874815&amp;how=up&amp;auth=ca8501ee55189011ebe666f9b04d6349b8fd553d&amp;goto=item%3Fid%3D12874280#12874815"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=komali2" class="hnuser">komali2</a> <span class="age"><a href="item?id=12874815">4 minutes ago</a></span> <span id="unv_12874815"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874815)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">I don't understand how "meaningful work," when the Dalai Lama says it, means "40 hours into the system." My understanding of Buddhism is "meaningful work" or "meaning" can be slaving away 60 hours a week at your own company, sitting on concrete tinkering away at a motorcycle, or even living on a mountain shaving your head and relinquishing all possessions. The idea is to "find meaning," that is, only do things that for <i>you</i> are important and for <i>you</i> give you a sense of purpose.<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874815&amp;goto=item%3Fid%3D12874280%2312874815">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874787"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874787" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874787&amp;how=up&amp;auth=9bfe0487970f4c605e9e220152f035fedb00e5c8&amp;goto=item%3Fid%3D12874280#12874787"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=petra" class="hnuser">petra</a> <span class="age"><a href="item?id=12874787">8 minutes ago</a></span> <span id="unv_12874787"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874787)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">&gt;&gt; society must create a wealth of opportunities for meaningful work<p>You could interpret this line in different ways. One is your interpretation.</p><p>Another one would be: Currently, people need work to feed themselves. Why not make thier job meaningful(and good for the human spirit), instead of, say the work at the factory(meaningless and negative for the human spirit), which there are many like it ? In fact , this could be an interesting use of automation.</p><p>Or another way: many people do benefit from a good structure in their lives, not everybody is a self motivated entrepreneur or software developer like found here . Why not, together, think of such structures ?<span>
-              </span></p><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874787&amp;goto=item%3Fid%3D12874280%2312874787">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    <tr class="athing comtr " id="12874749"><td>
-            <table border="0">  <tbody><tr>    <td class="ind"><img src="s.gif" height="1" width="40"></td><td valign="top" class="votelinks"><center><a id="up_12874749" onclick="return vote(this, &quot;up&quot;)" href="vote?id=12874749&amp;how=up&amp;auth=88cb0bba5b20d981a41d9182f9b5cc2157d5154c&amp;goto=item%3Fid%3D12874280#12874749"><div class="votearrow" title="upvote"></div></a></center></td><td class="default"><div style="margin-top:2px; margin-bottom:-10px;"><span class="comhead">
-          <a href="user?id=detaro" class="hnuser">detaro</a> <span class="age"><a href="item?id=12874749">13 minutes ago</a></span> <span id="unv_12874749"></span><span class="par"></span> <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12874749)">[-]</a>          <span class="storyon"></span>
-                  </span></div><br><div class="comment">
-                  <span class="c00">"Feeding their 40 hours into the system" is the opposite of "meaningful work".<span>
-              </span><div class="reply">        <p><font size="1">
-                      <u><a href="reply?id=12874749&amp;goto=item%3Fid%3D12874280%2312874749">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
-      </tbody></table></td></tr>
-    </tbody></table><br><br>
-</td></tr>
-<tr><td><img src="s.gif" height="10" width="0"><table width="100%" cellspacing="0" cellpadding="1"><tbody><tr><td bgcolor="#ff6600"></td></tr></tbody></table><br><center><span class="yclinks"><a href="newsguidelines.html">Guidelines</a>
-        | <a href="newsfaq.html">FAQ</a>
-        | <a href="mailto:hn@ycombinator.com">Support</a>
-        | <a href="https://github.com/HackerNews/API">API</a>
-        | <a href="security.html">Security</a>
-        | <a href="lists">Lists</a>
-        | <a href="bookmarklet.html">Bookmarklet</a>
-        | <a href="dmca.html">DMCA</a>
-        | <a href="http://www.ycombinator.com/apply/">Apply to YC</a>
-        | <a href="mailto:hn@ycombinator.com">Contact</a></span><br><br><form method="get" action="//hn.algolia.com/">Search:
-          <input type="text" name="q" value="" size="17" autocorrect="off" spellcheck="false" autocapitalize="off" autocomplete="false"></form>
-            </center></td></tr>      </tbody></table></center>-->
+  

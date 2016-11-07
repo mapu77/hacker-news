@@ -1,3 +1,18 @@
 // Place all the styles related to the Sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body{
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.label{
+    width: 90px;
+    color: #828282;
+    font-size: 10pt;
+}
+
+.value{
+    color: #828282;
+    font-size: 10pt;
+}

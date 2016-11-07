@@ -40,53 +40,26 @@
     <tr style="height:10px"></tr>
     </table>
   </thead>
-  <tbody border="0" cellpadding="0" cellspacing="0" class="itemlist">
-   <% i=1 %>
-   <% @contributions.each do |contribution| %>
-     <table border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
-      <tr>
-        <td class="enum"><%= i %>.<a href="#"><img width="10" height="10" src="heart.gif"></img></a></td>
-        <td class="title">
-          <a> <%= contribution.title %></a>
-          <% if contribution.url!=nil %>
-          <span>
-            <a class="url_post" href="<%=contribution.url %>">(<%= contribution.url %>)</a>
-          </span>
-          <%end%>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="details">
-          <span><%= contribution.puntuation %> points</span>
-          <span><a href="#">by <%= contribution.user.name %></a></span>
-          <a href="#">
-            <span>
-              <%= contribution.created_at %>
-            </span>
-          </a>
-          <span>
-             | 
-          </span>
-          <a href="#">
-            <span>
-              hide
-            </span>
-          </a>
-          <span>
-             | 
-          </span>
-          <a href="contributions/<%= contribution.id %>">
-            <span>
-              0 comments
-            </span>
-          </a>
-        </td>
-      </tr>
-      <tr class="spacer" style="height:5px"></tr>
-      </table>
-    <% i += 1 %>
-    <% end %>
+  <tbody>
+      <form>
+          <table border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
+              <tr>
+                  <td class="label">user:</td>
+                  <td style="color: #3C963C;"><%= current_user.name %></td>
+              </tr>
+              <tr>
+                  <td class="label">created:</td>
+                  <td class="value"><%= current_user.created_at %></td>
+              </tr>
+              <tr>
+                  <td class="label" style="vertical-align: top;">about:</td>
+                  <td class="value"><textarea rows="5" cols="60" wrap="virtual" name="about"></textarea></td>
+              </tr>
+              <tr>
+                  <td class="label"><input type="submit" value="update"></input></td>
+                  <td></td>
+              </tr>
+              <tr style="height:10px;"></tr>
+          </table>
+      </form>
   </tbody>
-
-<br>

@@ -6,7 +6,6 @@ class Contribution < ApplicationRecord
 
   def convert_blank_to_nil
       self.puntuation = 0
-      self.comments = 0
       if self.url.blank?
           self.url = nil
       end
