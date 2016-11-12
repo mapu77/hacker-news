@@ -43,7 +43,23 @@
         <table id="table_in" border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
         <tr>
          
-        <td class="enum"><a href="auth/google_oauth2"><img width="10" height="10" src="../heart.gif"></img></a></td>
+          <% if current_user!= nil %>
+            <% id_punt=nil %>
+            <% puntuat=0 %>
+            <% @puntuations.each do |puntuation| %>
+              <% if puntuation.contribution_id == @contribution.id%>
+                <% puntuat=1 %>
+                <% id_punt = puntuation.id %>
+              <%end%>
+            <%end%>
+          <% if puntuat==0 %>
+          <td class="enum"><a href="puntuations_new?puntuation[user_id]=<%= current_user.id%>&puntuation[contribution_id]=<%= @contribution.id%>"><img width="10" height="10" src="../../assets/heart.gif"></img></a></td>
+          <% else %>
+          <td class="enum"></td>
+          <%end%>
+          <% else %>
+          <td class="enum"><a href="auth/google_oauth2"><img width="10" height="10" src="../../assets/heart.gif"></img></a></td>
+          <% end %>
 
           <td class="title">
             <a> <%= @contribution.title %></a>
@@ -57,13 +73,23 @@
         <tr>
           <td></td>
           <td class="details">
-            <span><%= @contribution.puntuation %> points</span>
+            <span><%= @contribution.puntuations.size %> points</span>
             <span><a href="#">by <%= @contribution.user.name %></a></span>
             <a href="#">
               <span>
                 <%= @contribution.created_at %>
               </span>
             </a>
+            <% if puntuat==1%>
+            <span>
+               | 
+            </span>
+            <a href="delete_puntuation/<%= id_punt%>">
+              <span>
+                unvote
+              </span>
+            </a>
+            <% end %>
             <span>
                | 
             </span>
@@ -72,70 +98,106 @@
                 hide
               </span>
             </a>
-            <span>
-               | 
-            </span>
-            <a href="contributions/<%= @contribution.id %>">
-              <span>
-                0 comments
-              </span>
-            </a>
           </td>
         </tr>
+        
+          
+          <% if @contribution.url==nil %>
+          <tr style="height:2px"></tr>
+          <tr>
+            <td></td>
+            <td style="color: #828282;"> <%= @contribution.text %> </td>
+          </tr>
+          <% end %>
         <tr style="height:10px"></tr>
         <tr>
           <td colspan="1"></td>
           <td>
             <% if current_user %>
               <form method="post" action="/comments">
-                <textarea name="text" rows="6" cols="60"></textarea>
+                <textarea name="comment[content]" rows="6" cols="60"></textarea>
+                <input name="comment[user_id]" style="display: none" value="<%= current_user.id %>"></input>
+                <input name="comment[contribution_id]" style="display: none" value="<%= @contribution.id %>"></input>
                 <br><br>
                 <input type="submit" value="add comment">
               </form>
             <% else %>
               <form method="post" action="/auth/google_oauth2">
-                <textarea name="text" rows="6" cols="60"></textarea>
+                <textarea name="content" rows="6" cols="60"></textarea>
                 <br><br>
                 <input type="submit" value="add comment">
               </form>
             <% end %>
+            <br>
+            <br>
           </td>
         </tr>
         <tbody border="0" cellpadding="0" cellspacing="0" class="comment_tree">
-          <% @contribution.comment.each do | comment | %>
-           <table border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
+          <% @contribution.comments.each do | comment | %>
+           <table border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef" class="table_comment">
             <tr class="comment">
               <td>
                 <table border=0>
                   <tbody>
                     <tr>
                       <td class="ind">
-                        <img src="s.gif" height="1" width="0">
                       </td>
-                      <td valign="top" class="votelinks">
-                        <center>
-                          <a id="up_12936912" href="../heart.gif">
-                            <div class="votearrow" title="upvote"></div>
-                          </a>
-                        </center>
+                      <td valign="top" class="votelinks" style="padding-left:35px">
                       </td>
                       <td class="default">
                         <div style="margin-top:2px; margin-bottom:-10px;">
                           <span class="comhead">
-                            <a href="user?id=durkie" class="hnuser"><%= comment.user %> </a> 
-                            <span class="age"><a href="item?id=12936912"><%= comment.created_at %> </a></span> 
-                            <span id="unv_12936912"></span>
-                            <span class="par"></span> 
-                            <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12936912)">[-]</a>          
-                            <span class="storyon"></span>
+                            <a href="users/<%= comment.user.id %>"><%= comment.user.name %></a> 
+                            <span><a href=""><%= comment.created_at %> </a></span> 
+                            <!--<a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12936912)">[-]</a>-->          
                           </span>
                         </div>
                         <br>
-                        <div class="comment">
-                          <%= comment.text %> 
+                        <div class="comment" style="color: #000000;">
+                          <%= comment.content %> 
+                          <div class="reply">        
+                          <p style="margin: 0 0 0 0">
+                            <font size="1">
+                              <u>
+                                <% if current_user %>
+                                <a href="reply/new/<%= comment.id%>">reply</a>
+                                <% else %>
+                                <%= link_to "reply", "/auth/google_oauth2", id: "sign_in" %>
+                                <% end %>
+                              </u>
+                            </font>
+                          </p>
+                          </div>
                         </div>
                       </td>
                     </tr>
+                    
+                    
+                    
+                    <% comment.replies.each do | reply | %>
+                    <tr>
+                      <td class="ind" style="margin-left: 40px">
+                      </td>
+                      <td valign="top" class="votelinks" style="padding-left:35px">
+                      </td>
+                      <td class="default">
+                        <div style="margin-top:2px; margin-bottom:-10px;">
+                          <span class="comhead">
+                            <a href="users/<%= reply.user.id %>"><%= reply.user.name %></a> 
+                            <span><a href=""><%= reply.created_at %> </a></span> 
+                          </span>
+                        </div>
+                        <br>
+                        <div class="comment" style="color: #000000;">
+                          <%= reply.content %> 
+                        </div>
+                      </td>
+                    </tr>
+                    <%end%>
+                    
+                    
+                    
+                    
                   </tbody>
                 </table>
               </td>

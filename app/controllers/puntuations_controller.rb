@@ -28,7 +28,7 @@ class PuntuationsController < ApplicationController
 
     respond_to do |format|
       if @puntuation.save
-        format.html { redirect_to "/" }
+        format.html { redirect_to :back }
         format.json { render :show, status: :created, location: @puntuation }
       else
         format.html { render :new }
@@ -56,7 +56,7 @@ class PuntuationsController < ApplicationController
   def destroy
     @puntuation.destroy
     respond_to do |format|
-      format.html { redirect_to "/" }
+      format.html { redirect_to :back }
       format.json { head :no_content }
     end
   end

@@ -14,6 +14,7 @@ class RepliesController < ApplicationController
 
   # GET /replies/new
   def new
+    @comment = Comment.find(params[:coment])
     @reply = Reply.new
   end
 

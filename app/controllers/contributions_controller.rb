@@ -9,7 +9,10 @@ class ContributionsController < ApplicationController
     end
     sort = params[:sort]
     type = params[:type]
-    if (sort == 'date')
+    user = params[:user]
+    if (user!=nil)
+      @contributions = Contribution.where(user_id: user).order(created_at: :desc)
+    elsif (sort == 'date')
       @contributions = Contribution.order(created_at: :desc)
     elsif (type == 'text')
       @contributions = Contribution.where(url: nil).order(puntuation: :desc)
@@ -21,6 +24,9 @@ class ContributionsController < ApplicationController
   # GET /contributions/1
   # GET /contributions/1.json
   def show
+    if (current_user!= nil)
+      @puntuations = Puntuation.where(user_id: current_user.id)
+    end
   end
 
   # GET /contributions/new

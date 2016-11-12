@@ -7,8 +7,12 @@ Rails.application.routes.draw do
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'contributions/new', to: 'contributions#new', as: 'contributions_new'
   get 'users/:id', to: 'sessions#show'
+  post 'users/:id', to: 'sessions#update'
   get 'puntuations_new', to: 'puntuations#create'
   get 'delete_puntuation/:id', to: 'puntuations#destroy'
+  get 'contributions/puntuations_new', to: 'puntuations#create'
+  get 'contributions/delete_puntuation/:id', to: 'puntuations#destroy'
+  get 'contributions/reply/new/:coment', to: 'replies#new'
 
   resources :sessions, only: [:show, :create, :destroy]
   resources :contributions

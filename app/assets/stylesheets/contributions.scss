@@ -78,3 +78,27 @@ html {
 #table_in {
     margin-left: 0;
 }
+
+.comhead {
+    
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 8pt;
+    & a {
+        color: #828282;
+        &:visited {
+            color: #828282;
+        }
+        &:hover {
+            color: #828282;
+        }
+    }
+}
+
+.comment {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 9pt;
+}
+
+.table_comment {
+    margin-left: 0;
+}

@@ -1,10 +1,10 @@
 class Contribution < ApplicationRecord
   belongs_to :user
   has_many :puntuations
+  has_many :comments
   before_save :convert_blank_to_nil
   validates :title, presence: true
   validate :presenceURLorText
-  has_many :comment
 
   def convert_blank_to_nil
       self.puntuation = 0

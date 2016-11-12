@@ -18,14 +18,16 @@ ActiveRecord::Schema.define(version: 20161110221733) do
     t.integer  "contribution_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["contribution_id"], name: "index_comments_on_contribution_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "contributions", force: :cascade do |t|
     t.text     "title"
     t.text     "url"
     t.text     "text"
-    t.integer  "user_id"
     t.integer  "puntuation"
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_contributions_on_user_id"
@@ -46,6 +48,8 @@ ActiveRecord::Schema.define(version: 20161110221733) do
     t.integer  "comment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_replies_on_comment_id"
+    t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
