@@ -4,6 +4,9 @@ class ContributionsController < ApplicationController
   # GET /contributions
   # GET /contributions.json
   def index
+    if (current_user!= nil)
+      @puntuations = Puntuation.where(user_id: current_user.id)
+    end
     sort = params[:sort]
     type = params[:type]
     if (sort == 'date')

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @puntuation.user_id %>
+</p>
+
+<p>
+  <strong>Contribution:</strong>
+  <%= @puntuation.contribution_id %>
+</p>
+
+<%= link_to 'Edit', edit_puntuation_path(@puntuation) %> |
+<%= link_to 'Back', puntuations_path %>

@@ -12,16 +12,25 @@
               </td>
               <td style="line-height:12pt; height:10px;">
                 <span class="pagetop">
-                  <b class="hnname">
-                    <%= link_to 'Hacker News', contributions_url %>
-                  </b>
-                  <%= link_to 'newest', contributions_url(:sort => "date")%> | <%= link_to 'ask', contributions_url(:type => "text")%> | <a href="contributions/new">submit</a> 
+                  <b class="hnname"><%= link_to 'Hacker News', contributions_url %></b>
                 </span>
+                <span class="pagetop"><%= link_to 'newest', contributions_url(:sort => "date")%></span> 
+                | <span class="pagetop"><%= link_to 'ask', contributions_url(:type => "text")%></span> 
+                | <% if current_user %>
+                    <span class="pagetop"><%= link_to 'submit', contributions_new_url %></span>
+                  <% else %>
+                    <span class="pagetop"><%= link_to 'submit', "/auth/google_oauth2", id: "sign_in" %></span>
+                  <% end %>
               </td>
               <td style="text-align:right;padding-right:4px;">
-                <span class="pagetop">
-                  <%= link_to "login", "/auth/google_oauth2", id: "sign_in" %>
-                </span>
+                <% if current_user %>
+                  <span class="pagetop"><strong><a href="users/<%= current_user.id%>"><%= current_user.name %></a></strong></span> 
+                  | <span class="pagetop"><%= link_to "signout", signout_path, id: "sign_out" %> </span>
+                <% else %>
+                  <span class="pagetop">
+                    <%= link_to "login", "/auth/google_oauth2", id: "sign_in" %>
+                  </span>
+                <% end %>
               </td>
             </tr>
           </tbody>
@@ -33,7 +42,9 @@
       <td>
         <table id="table_in" border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
         <tr>
-          <td class="enum"><a href="#"><img width="10" height="10" src="../heart.gif"></img></a></td>
+         
+        <td class="enum"><a href="auth/google_oauth2"><img width="10" height="10" src="../heart.gif"></img></a></td>
+
           <td class="title">
             <a> <%= @contribution.title %></a>
             <% if @contribution.url!=nil %>
@@ -75,21 +86,64 @@
         <tr>
           <td colspan="1"></td>
           <td>
-            <form method="post" action="comment">
-              <input type="hidden" name="parent" value="12874280">
-              <input type="hidden" name="goto" value="item?id=12874280">
-              <input type="hidden" name="hmac" value="e6b06443e4e124a0c090f27824ff735d4123e169">
-              <textarea name="text" rows="6" cols="60"></textarea>
-              <br><br>
-              <input type="submit" value="add comment">
-            </form>
+            <% if current_user %>
+              <form method="post" action="/comments">
+                <textarea name="text" rows="6" cols="60"></textarea>
+                <br><br>
+                <input type="submit" value="add comment">
+              </form>
+            <% else %>
+              <form method="post" action="/auth/google_oauth2">
+                <textarea name="text" rows="6" cols="60"></textarea>
+                <br><br>
+                <input type="submit" value="add comment">
+              </form>
+            <% end %>
           </td>
         </tr>
+        <tbody border="0" cellpadding="0" cellspacing="0" class="comment_tree">
+          <% @contribution.comment.each do | comment | %>
+           <table border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
+            <tr class="comment">
+              <td>
+                <table border=0>
+                  <tbody>
+                    <tr>
+                      <td class="ind">
+                        <img src="s.gif" height="1" width="0">
+                      </td>
+                      <td valign="top" class="votelinks">
+                        <center>
+                          <a id="up_12936912" href="../heart.gif">
+                            <div class="votearrow" title="upvote"></div>
+                          </a>
+                        </center>
+                      </td>
+                      <td class="default">
+                        <div style="margin-top:2px; margin-bottom:-10px;">
+                          <span class="comhead">
+                            <a href="user?id=durkie" class="hnuser"><%= comment.user %> </a> 
+                            <span class="age"><a href="item?id=12936912"><%= comment.created_at %> </a></span> 
+                            <span id="unv_12936912"></span>
+                            <span class="par"></span> 
+                            <a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12936912)">[-]</a>          
+                            <span class="storyon"></span>
+                          </span>
+                        </div>
+                        <br>
+                        <div class="comment">
+                          <%= comment.text %> 
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          <%end%>
+        </tbody>
       </table>
+      </table>
+      </center>
       
-     
-     
-      
-      
-  <br><br>
-  
+    

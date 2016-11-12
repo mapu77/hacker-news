@@ -45,20 +45,39 @@
           <table border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
               <tr>
                   <td class="label">user:</td>
-                  <td style="color: #3C963C;"><%= current_user.name %></td>
+                  <td style="color: #3C963C;"><%= @user.name %></td>
               </tr>
               <tr>
                   <td class="label">created:</td>
-                  <td class="value"><%= current_user.created_at %></td>
+                  <td class="value"><%= @user.created_at %></td>
               </tr>
               <tr>
                   <td class="label" style="vertical-align: top;">about:</td>
+                  <% if current_user.id==@user.id %>
                   <td class="value"><textarea rows="5" cols="60" wrap="virtual" name="about"></textarea></td>
+                  <% else %>
+                  <td class="value"><%= @user.about %></td>
+                  <% end %>
               </tr>
+              <tr>
+                  <td></td>
+                  <td class="link">stories</td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td class="link">comments</td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td class="link">hidden</td>
+              </tr>
+              <tr style="height:10px;"></tr>
+              <% if current_user.id==@user.id %>
               <tr>
                   <td class="label"><input type="submit" value="update"></input></td>
                   <td></td>
               </tr>
+              <% end %>
               <tr style="height:10px;"></tr>
           </table>
       </form>

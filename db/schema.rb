@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161106100518) do
+ActiveRecord::Schema.define(version: 20161110221733) do
+
+  create_table "comments", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "user_id"
+    t.integer  "contribution_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
   create_table "contributions", force: :cascade do |t|
     t.text     "title"
@@ -23,6 +31,23 @@ ActiveRecord::Schema.define(version: 20161106100518) do
     t.index ["user_id"], name: "index_contributions_on_user_id"
   end
 
+  create_table "puntuations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "contribution_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["contribution_id"], name: "index_puntuations_on_contribution_id"
+    t.index ["user_id"], name: "index_puntuations_on_user_id"
+  end
+
+  create_table "replies", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "user_id"
+    t.integer  "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "provider"
     t.string   "uid"
@@ -31,6 +56,7 @@ ActiveRecord::Schema.define(version: 20161106100518) do
     t.datetime "oauth_expires_at"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.text     "about"
   end
 
 end

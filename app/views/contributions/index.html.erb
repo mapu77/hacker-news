@@ -24,7 +24,7 @@
               </td>
               <td style="text-align:right;padding-right:4px;">
                 <% if current_user %>
-                  <span class="pagetop"><strong><%= link_to current_user.name, "showuser"%></strong></span> 
+                  <span class="pagetop"><strong><a href="users/<%= current_user.id%>"><%= current_user.name %></a></strong></span> 
                   | <span class="pagetop"><%= link_to "signout", signout_path, id: "sign_out" %> </span>
                 <% else %>
                   <span class="pagetop">
@@ -45,7 +45,23 @@
    <% @contributions.each do |contribution| %>
      <table border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef">
       <tr>
-        <td class="enum"><%= i %>.<a href="#"><img width="10" height="10" src="heart.gif"></img></a></td>
+        <% if current_user %>
+          <% id_punt=nil %>
+          <% puntuat=0 %>
+          <% @puntuations.each do |puntuation| %>
+            <% if puntuation.contribution_id == contribution.id%>
+              <% puntuat=1 %>
+              <% id_punt = puntuation.id %>
+            <%end%>
+          <%end%>
+        <% if puntuat==0 %>
+        <td class="enum"><%= i %>.<a href="puntuations_new?puntuation[user_id]=<%= current_user.id%>&puntuation[contribution_id]=<%= contribution.id%>"><img width="10" height="10" src="heart.gif"></img></a></td>
+        <% else %>
+        <td class="enum"><%= i %>.</td>
+        <%end%>
+        <% else %>
+        <td class="enum"><%= i %>.<a href="auth/google_oauth2"><img width="10" height="10" src="heart.gif"></img></a></td>
+        <% end %>
         <td class="title">
           <a> <%= contribution.title %></a>
           <% if contribution.url!=nil %>
@@ -58,13 +74,23 @@
       <tr>
         <td></td>
         <td class="details">
-          <span><%= contribution.puntuation %> points</span>
-          <span><a href="#">by <%= contribution.user.name %></a></span>
+          <span><%= contribution.puntuations.size %> points</span>
+          <span><a href="users/<%= contribution.user.id%>">by <%= contribution.user.name %></a></span>
           <a href="#">
             <span>
               <%= contribution.created_at %>
             </span>
           </a>
+          <% if puntuat==1%>
+          <span>
+             | 
+          </span>
+          <a href="delete_puntuation/<%= id_punt%>">
+            <span>
+              unvote
+            </span>
+          </a>
+          <% end %>
           <span>
              | 
           </span>
@@ -78,7 +104,7 @@
           </span>
           <a href="contributions/<%= contribution.id %>">
             <span>
-              0 comments
+              0 comments(tmp)
             </span>
           </a>
         </td>
