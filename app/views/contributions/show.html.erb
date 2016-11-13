@@ -74,12 +74,34 @@
           <td></td>
           <td class="details">
             <span><%= @contribution.puntuations.size %> points</span>
-            <span><a href="#">by <%= @contribution.user.name %></a></span>
-            <a href="#">
-              <span>
-                <%= @contribution.created_at %>
-              </span>
-            </a>
+            <span><a href="/users/<%= @contribution.user.id %>">by <%= @contribution.user.name %></a></span>
+            <span>
+            <% if ((Time.now - @contribution.created_at) / 1.year).round >= 1 %>
+              <%= ((Time.now - @contribution.created_at) / 1.year).round  %>  years ago
+            <% else %>
+              <% if ((Time.now - @contribution.created_at) / 1.month).round >= 1 %>
+                <%= ((Time.now - @contribution.created_at) / 1.month).round %> months ago
+              <% else %>
+                <% if ((Time.now - @contribution.created_at) / 1.week).round >= 1 %>
+                  <%= ((Time.now - @contribution.created_at) / 1.week).round %> weeks ago 
+                <% else %>
+                  <% if ((Time.now - @contribution.created_at) / 1.day).round >= 1 %>
+                    <%= ((Time.now - @contribution.created_at) / 1.day).round %>  days ago
+                  <% else %>
+                    <% if ((Time.now - @contribution.created_at) / 1.hour).round >= 1 %>
+                      <%= ((Time.now - @contribution.created_at) / 1.hour).round %> hours ago
+                    <% else %>
+                      <% if ((Time.now - @contribution.created_at) / 1.minute).round >= 1 %>
+                        <%= ((Time.now - @contribution.created_at) / 1.minute).round %> minutes ago
+                      <% else %>
+                        <%= ((Time.now - @contribution.created_at) / 1.second).round %> seconds ago 
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+            </span>
             <% if puntuat==1%>
             <span>
                | 
@@ -148,7 +170,33 @@
                         <div style="margin-top:2px; margin-bottom:-10px;">
                           <span class="comhead">
                             <a href="/users/<%= comment.user.id %>"><%= comment.user.name %></a> 
-                            <span><a href=""><%= comment.created_at %> </a></span> 
+                            <span> 
+                              <% if ((Time.now - comment.created_at) / 1.year).round >= 1 %>
+                                <%= ((Time.now - comment.created_at) / 1.year).round  %>  years ago
+                              <% else %>
+                                <% if ((Time.now - comment.created_at) / 1.month).round >= 1 %>
+                                  <%= ((Time.now - comment.created_at) / 1.month).round %> months ago
+                                <% else %>
+                                  <% if ((Time.now - comment.created_at) / 1.week).round >= 1 %>
+                                    <%= ((Time.now - comment.created_at) / 1.week).round %> weeks ago 
+                                  <% else %>
+                                    <% if ((Time.now - comment.created_at) / 1.day).round >= 1 %>
+                                      <%= ((Time.now - comment.created_at) / 1.day).round %>  days ago
+                                    <% else %>
+                                      <% if ((Time.now - comment.created_at) / 1.hour).round >= 1 %>
+                                        <%= ((Time.now - comment.created_at) / 1.hour).round %> hours ago
+                                      <% else %>
+                                        <% if ((Time.now - comment.created_at) / 1.minute).round >= 1 %>
+                                          <%= ((Time.now - comment.created_at) / 1.minute).round %> minutes ago
+                                        <% else %>
+                                          <%= ((Time.now - comment.created_at) / 1.second).round %> seconds ago 
+                                        <% end %>
+                                      <% end %>
+                                    <% end %>
+                                  <% end %>
+                                <% end %>
+                              <% end %>
+                            </span> 
                             <!--<a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12936912)">[-]</a>-->          
                           </span>
                         </div>
@@ -184,7 +232,33 @@
                         <div style="margin-top:2px; margin-bottom:-10px;">
                           <span class="comhead">
                             <a href="/users/<%= reply.user.id %>"><%= reply.user.name %></a> 
-                            <span><a href=""><%= reply.created_at %> </a></span> 
+                            <span>
+                            <% if ((Time.now - reply.created_at) / 1.year).round >= 1 %>
+                                <%= ((Time.now - reply.created_at) / 1.year).round  %>  years ago
+                              <% else %>
+                                <% if ((Time.now - reply.created_at) / 1.month).round >= 1 %>
+                                  <%= ((Time.now - reply.created_at) / 1.month).round %> months ago
+                                <% else %>
+                                  <% if ((Time.now - reply.created_at) / 1.week).round >= 1 %>
+                                    <%= ((Time.now - reply.created_at) / 1.week).round %> weeks ago 
+                                  <% else %>
+                                    <% if ((Time.now - reply.created_at) / 1.day).round >= 1 %>
+                                      <%= ((Time.now - reply.created_at) / 1.day).round %>  days ago
+                                    <% else %>
+                                      <% if ((Time.now - reply.created_at) / 1.hour).round >= 1 %>
+                                        <%= ((Time.now - reply.created_at) / 1.hour).round %> hours ago
+                                      <% else %>
+                                        <% if ((Time.now - reply.created_at) / 1.minute).round >= 1 %>
+                                          <%= ((Time.now - reply.created_at) / 1.minute).round %> minutes ago
+                                        <% else %>
+                                          <%= ((Time.now - reply.created_at) / 1.second).round %> seconds ago 
+                                        <% end %>
+                                      <% end %>
+                                    <% end %>
+                                  <% end %>
+                                <% end %>
+                              <% end %>
+                            </span> 
                           </span>
                         </div>
                         <br>

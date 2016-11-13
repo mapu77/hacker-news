@@ -80,35 +80,33 @@
         <td class="details">
           <span><%= contribution.puntuations.size %> points</span>
           <span><a href="users/<%= contribution.user.id%>">by <%= contribution.user.name %></a></span>
-          <a href="#">
-            <span>
-              <% if ((Time.now - contribution.created_at) / 1.year).round >= 1 %>
-                <%= ((Time.now - contribution.created_at) / 1.year).round  %>  years ago
+          <span>
+            <% if ((Time.now - contribution.created_at) / 1.year).round >= 1 %>
+              <%= ((Time.now - contribution.created_at) / 1.year).round  %>  years ago
+            <% else %>
+              <% if ((Time.now - contribution.created_at) / 1.month).round >= 1 %>
+                <%= ((Time.now - contribution.created_at) / 1.month).round %> months ago
               <% else %>
-                <% if ((Time.now - contribution.created_at) / 1.month).round >= 1 %>
-                  <%= ((Time.now - contribution.created_at) / 1.month).round %> months ago
+                <% if ((Time.now - contribution.created_at) / 1.week).round >= 1 %>
+                  <%= ((Time.now - contribution.created_at) / 1.week).round %> weeks ago 
                 <% else %>
-                  <% if ((Time.now - contribution.created_at) / 1.week).round >= 1 %>
-                    <%= ((Time.now - contribution.created_at) / 1.week).round %> weeks ago 
+                  <% if ((Time.now - contribution.created_at) / 1.day).round >= 1 %>
+                    <%= ((Time.now - contribution.created_at) / 1.day).round %>  days ago
                   <% else %>
-                    <% if ((Time.now - contribution.created_at) / 1.day).round >= 1 %>
-                      <%= ((Time.now - contribution.created_at) / 1.day).round %>  days ago
+                    <% if ((Time.now - contribution.created_at) / 1.hour).round >= 1 %>
+                      <%= ((Time.now - contribution.created_at) / 1.hour).round %> hours ago
                     <% else %>
-                      <% if ((Time.now - contribution.created_at) / 1.hour).round >= 1 %>
-                        <%= ((Time.now - contribution.created_at) / 1.hour).round %> hours ago
+                      <% if ((Time.now - contribution.created_at) / 1.minute).round >= 1 %>
+                        <%= ((Time.now - contribution.created_at) / 1.minute).round %> minutes ago
                       <% else %>
-                        <% if ((Time.now - contribution.created_at) / 1.minute).round >= 1 %>
-                          <%= ((Time.now - contribution.created_at) / 1.minute).round %> minutes ago
-                        <% else %>
-                          <%= ((Time.now - contribution.created_at) / 1.second).round %> seconds ago 
-                        <% end %>
+                        <%= ((Time.now - contribution.created_at) / 1.second).round %> seconds ago 
                       <% end %>
                     <% end %>
                   <% end %>
                 <% end %>
               <% end %>
-            </span>
-          </a>
+            <% end %>
+          </span>
           <% if puntuat==1%>
           <span>
              | 
