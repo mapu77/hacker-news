@@ -28,6 +28,8 @@ class PuntuationsController < ApplicationController
 
     respond_to do |format|
       if @puntuation.save
+        @voted_contribution = Contribution.find(@puntuation.contribution_id)
+        @voted_contribution.increment!(:puntuation, 1)
         format.html { redirect_to :back }
         format.json { render :show, status: :created, location: @puntuation }
       else
@@ -55,6 +57,8 @@ class PuntuationsController < ApplicationController
   # DELETE /puntuations/1.json
   def destroy
     @puntuation.destroy
+    @unvoted_contribution = Contribution.find(@puntuation.contribution_id)
+    @unvoted_contribution.decrement!(:puntuation, 1)
     respond_to do |format|
       format.html { redirect_to :back }
       format.json { head :no_content }
