@@ -5,8 +5,14 @@ class CommentsController < ApplicationController
   # GET /comments.json
   def index
     sort = params[:sort]
+    id = params[:id]
     if (sort == 'date')
       @comments = Contribution.order(created_at: :desc)
+    else
+      comments = Comment.where(user_id: id).order(created_at: :desc)
+      replies = Reply.where(user_id: id).order(created_at: :desc)
+      @all = comments + replies
+      @all.sort_by { |f| [f.created_at] }
     end
   end
 

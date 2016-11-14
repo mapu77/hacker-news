@@ -1,31 +1,100 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Comments</h1>
-
-<table>
-  <thead>
+<thead>
+    <table id="hnmain" border="0" cellpadding="0" align="center" cellspacing="0" width="85%" bgcolor="#f6f6ef"> 
     <tr>
-      <th>Content</th>
-      <th>User</th>
-      <th>Contribution</th>
-      <th colspan="3"></th>
+      <td bgcolor="#ff6600">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" >
+          <tbody>
+            <tr>
+              <td style="width:18px;padding-right:4px">
+                <a href=http://www.ycombinator.com/>
+                  <img src="https://news.ycombinator.com/y18.gif" width="18" height="18" style="border:1px white solid;">
+                </a>
+              </td>
+              <td style="line-height:12pt; height:10px;">
+                <span class="pagetop"><b class="hnname"><%= link_to 'Hacker News', contributions_url %></b></span>
+                <span class="pagetop"><%= link_to 'newest', contributions_url(:sort => "date")%></span> 
+                <% if current_user %>
+                  | <span class="pagetop"><a href="/users/<%= current_user.id %>/comments">threads</a></span>
+                <% end %>              
+                | <span class="pagetop"><%= link_to 'ask', contributions_url(:type => "text")%></span> 
+                | <% if current_user %>
+                    <span class="pagetop"><%= link_to 'submit', contributions_new_url %></span>
+                  <% else %>
+                    <span class="pagetop"><%= link_to 'submit', "/auth/google_oauth2", id: "sign_in" %></span>
+                  <% end %>
+              </td>
+              <td style="text-align:right;padding-right:4px;">
+                <% if current_user %>
+                  <span class="pagetop"><strong><a href="/users/<%= current_user.id%>"><%= current_user.name %></a></strong></span> 
+                  | <span class="pagetop"><%= link_to "signout", signout_path, id: "sign_out" %> </span>
+                <% else %>
+                  <span class="pagetop">
+                    <%= link_to "login", "/auth/google_oauth2", id: "sign_in" %>
+                  </span>
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
     </tr>
+    <tr style="height:10px"></tr>
+    </table>
   </thead>
-
-  <tbody>
-    <% @comments.each do |comment| %>
+  <tbody border="0" cellpadding="0" cellspacing="0" class="itemlist">
+    <% @all.each do | something | %>
+    <table border="0" cellpadding="0" cellspacing="0" align="center" width="85%" bgcolor="#f6f6ef"
       <tr>
-        <td><%= comment.content %></td>
-        <td><%= comment.user_id %></td>
-        <td><%= comment.contribution_id %></td>
-        <td><%= link_to 'Show', comment %></td>
-        <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-        <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td class="enum">
+        </td>
+        <td class="details">
+          <span>by <a href="/users/<%=current_user.id%>"><%=current_user.name%></a></span>
+          <span>
+            <% if ((Time.now - something.created_at) / 1.year).round >= 1 %>
+              <%= ((Time.now - something.created_at) / 1.year).round  %>  years ago
+            <% else %>
+              <% if ((Time.now - something.created_at) / 1.month).round >= 1 %>
+                <%= ((Time.now - something.created_at) / 1.month).round %> months ago
+              <% else %>
+                <% if ((Time.now - something.created_at) / 1.week).round >= 1 %>
+                  <%= ((Time.now - something.created_at) / 1.week).round %> weeks ago 
+                <% else %>
+                  <% if ((Time.now - something.created_at) / 1.day).round >= 1 %>
+                    <%= ((Time.now - something.created_at) / 1.day).round %>  days ago
+                  <% else %>
+                    <% if ((Time.now - something.created_at) / 1.hour).round >= 1 %>
+                      <%= ((Time.now - something.created_at) / 1.hour).round %> hours ago
+                    <% else %>
+                      <% if ((Time.now - something.created_at) / 1.minute).round >= 1 %>
+                        <%= ((Time.now - something.created_at) / 1.minute).round %> minutes ago
+                      <% else %>
+                        <%= ((Time.now - something.created_at) / 1.second).round %> seconds ago 
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </span>
+          <span>
+          <% if something.is_a?(Comment) %>
+              | on: <a href="/contributions/<%= something.contribution.id %>"><%= something.contribution.title %></a>
+          <% else %>
+              | on: <a href="/contributions/<%= something.comment.contribution.id %>"><%= something.comment.contribution.title %></a>
+          <%end%>
+          </span>
+        </td>
       </tr>
-    <% end %>
+      <tr>
+        <td class="enum"></td>
+        <td class="title">
+          <span>
+            <%= something.content %>
+          </span>
+        </td>
+      </tr>
+      <tr style="height: 10px;"></tr>
+    </table>
+    <%end%>
   </tbody>
-</table>
 
-<br>
-
-<%= link_to 'New Comment', new_comment_path %>

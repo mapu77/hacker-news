@@ -13,6 +13,9 @@
               <td style="line-height:12pt; height:10px;">
                 <span class="pagetop"><b class="hnname"><%= link_to 'Hacker News', contributions_url %></b></span>
                 <span class="pagetop"><%= link_to 'newest', contributions_url(:sort => "date")%></span> 
+                <% if current_user %>
+                  | <span class="pagetop"><a href="/users/<%= current_user.id %>/comments">threads</a></span>
+                <% end %>              
                 | <span class="pagetop"><%= link_to 'ask', contributions_url(:type => "text")%></span> 
                 | <% if current_user %>
                     <span class="pagetop"><%= link_to 'submit', contributions_new_url %></span>
@@ -53,12 +56,12 @@
             <%end%>
           <%end%>
         <% if puntuat==0 %>
-        <td class="enum"><%= i %>.<a href="puntuations_new?puntuation[user_id]=<%= current_user.id%>&puntuation[contribution_id]=<%= contribution.id%>"><img width="10" height="10" src="/assets/heart.gif"></img></a></td>
+        <td class="enum"><%= i %>.<a href="puntuations_new?puntuation[user_id]=<%= current_user.id%>&puntuation[contribution_id]=<%= contribution.id%>" class="icon_plus">+</a></td>
         <% else %>
         <td class="enum"><%= i %>.</td>
         <%end%>
         <% else %>
-        <td class="enum"><%= i %>.<a href="auth/google_oauth2"><img width="10" height="10" src="/assets/heart.gif"></img></a></td>
+        <td class="enum"><%= i %>.<a href="auth/google_oauth2" class="icon_plus">+</a></td>
         <% end %>
         <td class="title">
           <% if contribution.url==nil %>

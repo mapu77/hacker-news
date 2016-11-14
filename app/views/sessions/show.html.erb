@@ -14,7 +14,10 @@
                 <span class="pagetop">
                   <b class="hnname"><%= link_to 'Hacker News', contributions_url %></b>
                 </span>
-                <span class="pagetop"><%= link_to 'newest', contributions_url(:sort => "date")%></span> 
+                <span class="pagetop"><%= link_to 'newest', contributions_url(:sort => "date")%></span>
+                <% if current_user %>
+                  | <span class="pagetop"><a href="/users/<%= current_user.id %>/comments">threads</a></span>
+                <% end %>
                 | <span class="pagetop"><%= link_to 'ask', contributions_url(:type => "text")%></span> 
                 | <% if current_user %>
                     <span class="pagetop"><%= link_to 'submit', contributions_new_url %></span>
@@ -49,7 +52,35 @@
               </tr>
               <tr>
                   <td class="label">created:</td>
-                  <td class="value"><%= @user.created_at %></td>
+                  <td class="value">
+                    <span>
+                      <% if ((Time.now - @user.created_at) / 1.year).round >= 1 %>
+                        <%= ((Time.now - @user.created_at) / 1.year).round  %>  years ago
+                      <% else %>
+                        <% if ((Time.now - @user.created_at) / 1.month).round >= 1 %>
+                          <%= ((Time.now - @user.created_at) / 1.month).round %> months ago
+                        <% else %>
+                          <% if ((Time.now - @user.created_at) / 1.week).round >= 1 %>
+                            <%= ((Time.now - @user.created_at) / 1.week).round %> weeks ago 
+                          <% else %>
+                            <% if ((Time.now - @user.created_at) / 1.day).round >= 1 %>
+                              <%= ((Time.now - @user.created_at) / 1.day).round %>  days ago
+                          <% else %>
+                            <% if ((Time.now - @user.created_at) / 1.hour).round >= 1 %>
+                              <%= ((Time.now - @user.created_at) / 1.hour).round %> hours ago
+                            <% else %>
+                              <% if ((Time.now - @user.created_at) / 1.minute).round >= 1 %>
+                                <%= ((Time.now - @user.created_at) / 1.minute).round %> minutes ago
+                              <% else %>
+                            <%= ((Time.now - user.created_at) / 1.second).round %> seconds ago 
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </span>
+                  </td>
               </tr>
               <tr>
                   <td class="label" style="vertical-align: top;">about:</td>
@@ -69,7 +100,11 @@
               </tr>
               <tr>
                   <td></td>
-                  <td class="link">comments</td>
+                  <td class="link">
+                    <a href="/users/<%= current_user.id %>/comments">
+                      <span class="link">comments</span>
+                    </a>
+                  </td>
               </tr>
               <tr style="height:10px;"></tr>
               <% if current_user && current_user.id==@user.id %>

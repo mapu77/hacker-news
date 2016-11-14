@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'contributions/puntuations_new', to: 'puntuations#create'
   get 'contributions/delete_puntuation/:id', to: 'puntuations#destroy'
   get 'contributions/reply/new/:coment', to: 'replies#new'
+  get 'users/:id/comments', to: 'comments#index'
 
   resources :sessions, only: [:show, :create, :destroy]
   resources :contributions
