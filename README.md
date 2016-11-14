@@ -1,24 +1,10 @@
 # README
+This is a project for 'Aplicacions i Serveis Web' subject from the 'Enginyeria del Software' degree of the [Barcelona School Of Informatics](http://www.fib.upc.edu/en.html). Our version of Hacker-News is available [here](https://pure-meadow-21519.herokuapp.com/): 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+It' been created by:
+- [David Aleu](https://github.com/daleu)
+- [Jordi Guiu](https://github.com/guiu23)
+- [Eduard Maura](https://github.com/mapu77)
+- [Arnau Orriols](https://github.com/aog182)
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+To see the original version, please go [here](https://news.ycombinator.com/):
