@@ -4,10 +4,8 @@
       <table border=0>
         <tbody>
           <tr>
-            <td class="ind">
-            </td>
-            <td valign="top" class="votelinks" style="padding-left:35px">
-            </td>
+            <td class="ind"></td>
+            <td valign="top" class="votelinks" style="padding-left:35px"></td>
             <td class="default">
               <div style="margin-top:2px; margin-bottom:-10px;">
                 <span class="comhead">
@@ -40,13 +38,10 @@
                   <% end %>
                   </span>
                   <span> | on: <%= comment.contribution.title %> </span> 
-                  <!--<a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12936912)">[-]</a>-->          
                 </span>
               </div>
               <br>
-              <div class="comment" style="color: #000000;">
-                <%= comment.content %>
-              </div>
+              <div class="comment" style="color: #000000;"><%= comment.content %></div>
               <br>
               <form method="post" action="/replies">
                 <textarea name="reply[content]" rows="6" cols="60"></textarea>
@@ -57,6 +52,5 @@
               </form>
             </td>
           </tr>
-          
         </tbody>
       </table>

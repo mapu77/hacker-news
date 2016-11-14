@@ -32,7 +32,7 @@ class RepliesController < ApplicationController
         format.html {  redirect_to @reply.comment.contribution, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @reply }
       else
-        format.html { render :new }
+        format.html { redirect_to @reply.comment.contribution }
         format.json { render json: @reply.errors, status: :unprocessable_entity }
       end
     end
