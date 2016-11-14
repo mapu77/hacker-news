@@ -1,5 +1,5 @@
 # README
-This is a project for 'Aplicacions i Serveis Web' subject from the 'Enginyeria del Software' degree of the [Barcelona School Of Informatics](http://www.fib.upc.edu/en.html). Our version of Hacker-News is available [here](https://pure-meadow-21519.herokuapp.com/): 
+This is a project for `Aplicacions i Serveis Web` subject from the `Enginyeria del Software` degree of the [Barcelona School Of Informatics](http://www.fib.upc.edu/en.html). Our version of Hacker-News is available at [https://pure-meadow-21519.herokuapp.com/](https://pure-meadow-21519.herokuapp.com/): 
 
 It' been created by:
 - [David Aleu](https://github.com/daleu)
