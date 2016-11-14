@@ -11,9 +11,7 @@
                 </a>
               </td>
               <td style="line-height:12pt; height:10px;">
-                <span class="pagetop">
-                  <b class="hnname"><%= link_to 'Hacker News', contributions_url %></b>
-                </span>
+                <span class="pagetop"><b class="hnname"><%= link_to 'Hacker News', contributions_url %></b></span>
                 <span class="pagetop"><%= link_to 'newest', contributions_url(:sort => "date")%></span> 
                 | <span class="pagetop"><%= link_to 'ask', contributions_url(:type => "text")%></span> 
                 | <% if current_user %>
