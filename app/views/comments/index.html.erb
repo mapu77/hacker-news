@@ -48,7 +48,7 @@
         <td class="enum">
         </td>
         <td class="details">
-          <span>by <a href="/users/<%=current_user.id%>"><%=current_user.name%></a></span>
+          <span>by <a href="/users/<%=something.user.id%>"><%=something.user.name%></a></span>
           <span>
             <% if ((Time.now - something.created_at) / 1.year).round >= 1 %>
               <%= ((Time.now - something.created_at) / 1.year).round  %>  years ago
