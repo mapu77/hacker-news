@@ -177,10 +177,26 @@
                     <tr>
                       <td class="ind">
                       </td>
-                      <td valign="top" class="votelinks" style="padding-left:35px">
-                      </td>
+                      <% if current_user %>
+                        <% id_punt=nil %>
+                        <% puntuat=0 %>
+                        <% @puntuations_com.each do |puntuation_com| %>
+                          <% if puntuation_com.comment_id == comment.id%>
+                            <% puntuat=1 %>
+                            <% id_punt = puntuation_com.id %>
+                          <%end%>
+                        <%end%>
+                      <% if puntuat==0 %>
+                      <td class="enum"><a href="/puntuations_new_comment?comment_puntuation[user_id]=<%= current_user.id%>&comment_puntuation[comment_id]=<%= comment.id%>" class="icon_plus">+</a></td>
+                      <% else %>
+                      <td class="enum"></td>
+                      <%end%>
+                      <% else %>
+                      <td class="enum"><a href="/auth/google_oauth2" class="icon_plus">+</a></td>
+                      <% end %>
                       <td class="default">
                         <div style="margin-top:2px; margin-bottom:-10px;">
+                          <span class="comhead"><%= comment.comment_puntuations.size%> points</span>
                           <span class="comhead">
                             <a href="/users/<%= comment.user.id %>"><%= comment.user.name %></a> 
                             <span> 
@@ -212,6 +228,16 @@
                             </span> 
                             <!--<a class="togg" n="1" href="javascript:void(0)" onclick="return toggle(12936912)">[-]</a>-->          
                           </span>
+                          <% if puntuat==1%>
+                          <span class="comhead">
+                             | 
+                          </span>
+                          <a href="/delete_puntuation_comment/<%= id_punt%>">
+                            <span class="comhead">
+                              unvote
+                            </span>
+                          </a>
+                          <% end %>
                         </div>
                         <br>
                         <div class="comment" style="color: #000000;">
@@ -239,10 +265,26 @@
                     <tr>
                       <td class="ind">
                       </td>
-                      <td valign="top" class="votelinks" style="padding-left:35px">
-                      </td>
+                      <% if current_user %>
+                        <% id_punt=nil %>
+                        <% puntuat=0 %>
+                        <% @puntuations_rep.each do |puntuation_rep| %>
+                          <% if puntuation_rep.reply_id == reply.id%>
+                            <% puntuat=1 %>
+                            <% id_punt = puntuation_rep.id %>
+                          <%end%>
+                        <%end%>
+                      <% if puntuat==0 %>
+                      <td class="enum"><a href="/puntuations_new_reply?reply_puntuation[user_id]=<%= current_user.id%>&reply_puntuation[reply_id]=<%= reply.id%>" class="icon_plus">+</a></td>
+                      <% else %>
+                      <td class="enum"></td>
+                      <%end%>
+                      <% else %>
+                      <td class="enum"><a href="/auth/google_oauth2" class="icon_plus">+</a></td>
+                      <% end %>
                       <td class="default" style="padding-left: 40px">
                         <div style="margin-top:2px; margin-bottom:-10px;">
+                          <span class="comhead"><%= reply.reply_puntuations.size%> points</span>
                           <span class="comhead">
                             <a href="/users/<%= reply.user.id %>"><%= reply.user.name %></a> 
                             <span>
@@ -271,7 +313,17 @@
                                   <% end %>
                                 <% end %>
                               <% end %>
-                            </span> 
+                            </span>
+                            <% if puntuat==1%>
+                          <span class="comhead">
+                             | 
+                          </span>
+                          <a href="/delete_puntuation_reply/<%= id_punt%>">
+                            <span class="comhead">
+                              unvote
+                            </span>
+                          </a>
+                          <% end %>
                           </span>
                         </div>
                         <br>

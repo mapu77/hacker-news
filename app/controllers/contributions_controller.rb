@@ -26,6 +26,8 @@ class ContributionsController < ApplicationController
   def show
     if (current_user!= nil)
       @puntuations = Puntuation.where(user_id: current_user.id)
+      @puntuations_com = CommentPuntuation.where(user_id: current_user.id)
+      @puntuations_rep = ReplyPuntuation.where(user_id: current_user.id)
     end
   end
 

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :reply_puntuations
+  resources :comment_puntuations
   resources :puntuations
   resources :replies
   resources :comments
@@ -10,6 +12,10 @@ Rails.application.routes.draw do
   post 'users/:id', to: 'sessions#update'
   get 'puntuations_new', to: 'puntuations#create'
   get 'delete_puntuation/:id', to: 'puntuations#destroy'
+  get 'puntuations_new_comment', to: 'comment_puntuations#create'
+  get 'delete_puntuation_comment/:id', to: 'comment_puntuations#destroy'
+  get 'puntuations_new_reply', to: 'reply_puntuations#create'
+  get 'delete_puntuation_reply/:id', to: 'reply_puntuations#destroy'
   get 'contributions/puntuations_new', to: 'puntuations#create'
   get 'contributions/delete_puntuation/:id', to: 'puntuations#destroy'
   get 'contributions/reply/new/:coment', to: 'replies#new'

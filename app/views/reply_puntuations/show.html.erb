@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Reply:</strong>
+  <%= @reply_puntuation.reply %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @reply_puntuation.user %>
+</p>
+
+<%= link_to 'Edit', edit_reply_puntuation_path(@reply_puntuation) %> |
+<%= link_to 'Back', reply_puntuations_path %>

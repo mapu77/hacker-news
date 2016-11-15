@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @comment_puntuation.comment %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @comment_puntuation.user %>
+</p>
+
+<%= link_to 'Edit', edit_comment_puntuation_path(@comment_puntuation) %> |
+<%= link_to 'Back', comment_puntuations_path %>

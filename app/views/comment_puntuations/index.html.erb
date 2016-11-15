@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Comment Puntuations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Comment</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @comment_puntuations.each do |comment_puntuation| %>
+      <tr>
+        <td><%= comment_puntuation.comment %></td>
+        <td><%= comment_puntuation.user %></td>
+        <td><%= link_to 'Show', comment_puntuation %></td>
+        <td><%= link_to 'Edit', edit_comment_puntuation_path(comment_puntuation) %></td>
+        <td><%= link_to 'Destroy', comment_puntuation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Comment Puntuation', new_comment_puntuation_path %>
