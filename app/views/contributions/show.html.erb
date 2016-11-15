@@ -150,7 +150,7 @@
           <td>
             <% if current_user %>
               <form method="post" action="/comments">
-                <textarea name="comment[content]" rows="6" cols="60"></textarea>
+                <textarea name="comment[content]" rows="6" cols="60" required></textarea>
                 <input name="comment[user_id]" style="display: none" value="<%= current_user.id %>"></input>
                 <input name="comment[contribution_id]" style="display: none" value="<%= @contribution.id %>"></input>
                 <br><br>

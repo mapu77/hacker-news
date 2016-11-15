@@ -44,7 +44,7 @@
               <div class="comment" style="color: #000000;"><%= comment.content %></div>
               <br>
               <form method="post" action="/replies">
-                <textarea name="reply[content]" rows="6" cols="60"></textarea>
+                <textarea name="reply[content]" rows="6" cols="60" required></textarea>
                 <input name="reply[user_id]" style="display: none" value="<%= current_user.id %>"></input>
                 <input name="reply[comment_id]" style="display: none" value="<%= comment.id %>"></input>
                 <br><br>
