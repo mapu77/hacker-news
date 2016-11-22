@@ -1,0 +1,575 @@
+swagger: '2.0'
+
+info:
+  title: Hacker News
+  version: 1.0.0
+  description: |
+    Level 2 API for Hacker-News example from [Web Services and Applications](http://www.fib.upc.edu/en/estudiar-enginyeria-informatica/assignatures.html?assig=ASW)'s subject of the [Barcelona School of Informatics](http://www.fib.upc.edu/en.html) in [Universitat Politècnica de Catalunya](http://www.upc.edu/?set_language=en).
+    
+    Created by:
+    - [David Aleu](https://github.com/daleu)
+    - [Jordi Guiu](https://github.com/guiu23)
+    - [Eduard Maura](https://github.com/mapu77)
+    - [Arnau Orriols](https://github.com/aog182)
+  
+host: hacker-news-mapu77.c9users.io
+
+schemes:
+  - http
+
+basePath: /api/v1
+produces:
+  - application/hal+json
+
+tags:
+  - name: Contribution
+  - name: Vote
+  - name: Comment
+  - name: Reply
+  - name: User
+  
+
+paths:
+  /contributions:
+    get:
+      description: |
+        Gets `Contribution` objects.
+        Optional query param of **type** determines
+        which kind of contribution does the array contain.
+      tags:
+        - Contribution
+      parameters:
+        -
+          name: type
+          in: query
+          description: Type of contribution (ask or url)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            title: ArrayOfContributions
+            type: array
+            items:
+              $ref: "#/definitions/Contribution"
+        '400':
+          description: Type not allowed
+              
+    post:
+      description: |
+        Creates a new `Contribution` with the information of the `body` param
+      tags:
+        - Contribution
+      parameters:
+        - 
+          name: token
+          in: header
+          required: true
+          description: User token
+          type: string
+        -
+          name: body
+          in: body
+          required: true
+          description: Contribution information
+          schema:
+            $ref: "#/definitions/NewContribution"
+          
+      responses:
+        '201':
+          description: Contribution created
+          schema:
+            $ref: "#/definitions/Contribution"
+        '401':
+          description: Unauthorized user
+        '409':
+          description: Conflict on creating contribution. It can't have text and url
+  
+  /contributions/{id}:
+    get:
+      description: |
+        Gets a specific `Contribution` by **id**
+      tags:
+        - Contribution
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of the contribution
+          required: true
+          type: number
+          format: int
+  
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: "#/definitions/Contribution"
+        '404':
+          description: Contribution not found
+  
+  /votes:
+    post:
+      description: |
+        A specific `User` votes a specific `Contribution`
+        Two compulsory query params **user_id** and **contribution_id** are required
+      tags:
+        - Vote
+      parameters:
+        - 
+          name: token
+          in: header
+          required: true
+          description: User token
+          type: string
+        -
+          name: user_id
+          in: query
+          description:  Unique identifier representing the user that make the votation
+          required: true
+          type: number
+          format: int
+        - 
+          name: contribution_id
+          in: query
+          description: Unique identifier representing the contribution that receives the votation
+          required: false
+          type: number
+          format: int
+        -
+          name: comment_id
+          in: query
+          description: Unique identifier representing the comment that receives the votation
+          required: false
+          type: number
+          format: int
+        -
+          name: reply_id
+          in: query
+          description: Unique identifier representing the reply that receives the votation
+          required: false
+          type: number
+          format: int
+          
+      responses:
+        '201':
+          description: Vote created
+        '400':
+          description: Parameters not allowed
+        '401':
+          description: Unauthorized user
+        '404':
+          description: User, Contribution, Comment or Reply not found
+        '409':
+          description: The user has already voted this contribution
+  
+    delete:
+      description: |
+        A specific `User` unvotes a specific `Contribution`
+        Two compulsory query params **user_id** and **contribution_id** are required
+      tags:
+        - Vote
+      parameters:
+        - 
+          name: token
+          in: header
+          required: true
+          description: User token
+          type: string
+        -
+          name: user_id
+          in: query
+          description: Unique identifier representing the user that unvotes the contribution
+          required: true
+          type: number
+          format: int
+        - 
+          name: contribution_id
+          in: query
+          description: Unique identifier representing the contribution that receives the votation
+          required: false
+          type: number
+          format: int
+        -
+          name: comment_id
+          in: query
+          description: Unique identifier representing the comment that receives the votation
+          required: false
+          type: number
+          format: int
+        -
+          name: reply_id
+          in: query
+          description: Unique identifier representing the reply that receives the votation
+          required: false
+          type: number
+          format: int
+          
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Parametrs not allowed
+        '401':
+          description: Unauthorized user
+        '404':
+          description: User, Contribution, Comment or Reply not found
+          
+  /comments:
+    get:
+      description: |
+        Gets all the `Comment` object of a `Contribution`
+        Params **user_id** and **contribution_id** specifies the author or the contribution of the comment.
+      tags:
+        - Comment
+      parameters:
+        -
+          name: user_id
+          in: query
+          description: Unique identifier representing the user who made the comment
+          required: false
+          type: number
+          format: int
+        -
+          name: contribution_id
+          in: query
+          description: Unique identifier representing the contribution which the comment belongs to
+          required: false
+          type: number
+          format: int
+      responses:
+        '200':  
+          description: Successful response
+          schema:
+            title: ArrayOfComments
+            type: array
+            items:
+              $ref: "#/definitions/Comment"
+        '400':
+          description: Parameters not allowed
+        '404':
+          description: User or contribution not found
+              
+    post:
+      description: |
+        A `User` creates a new `Comment` to a specific `Contribution`
+      tags:
+        - Comment
+      parameters:
+        - 
+          name: token
+          in: header
+          required: true
+          description: User token
+          type: string
+        -
+          name: user_id
+          in: query
+          description: Unique identifier representing the user who made the comment
+          required: true
+          type: number
+          format: int
+        -
+          name: contribution_id
+          in: query
+          description: Unique identifier representing the commented contribution
+          required: true
+          type: number
+          format: int
+        - 
+          name: body
+          in: body
+          description: Text of the comment
+          required: true
+          schema:
+            $ref: "#/definitions/NewComment"
+
+      responses:
+        '201':
+          description: Created comment
+          schema:
+            $ref: "#/definitions/Comment"
+        '400':
+          description: Parameters not allowed
+        '401':
+          description: Unauthorized user
+        '404':
+          description: User or contribution not found
+  
+  /replies:
+    get:
+      description: |
+        Gets all the `Reply` objects of a `Comment`
+        Params **user_id** and **comment_id** specify the author and the comment of the reply.
+      tags:
+        - Reply
+      parameters:
+        -
+          name: user_id
+          in: query
+          description: Unique identifier representing the user that mades the reply
+          required: false
+          type: number
+          format: int
+        - 
+          name: comment_id
+          in: query
+          description: Unique identifier representing the comment which the reply belongs to
+          required: false
+          type: number
+          format: int
+      responses:
+        '200':
+          description: Successful response
+          schema: 
+            title: ArrayOfReplies
+            type: array
+            items:
+              $ref: "#/definitions/Reply"
+        '400':
+          description: Parameters not allowed
+        '404':
+          description: User or comment not found
+  
+    post:
+      description: |
+        A `User` creates a new `Reply` to a specific `Comment`
+      tags:
+        - Reply
+      parameters:
+        - 
+          name: token
+          in: header
+          required: true
+          description: User token
+          type: string
+        -
+          name: user_id
+          in: query
+          description: Unique identifier representing the user who made the reply
+          required: true
+          type: number
+          format: int
+        -
+          name: comment_id
+          in: query
+          description: Unique identifier representing the replied comment
+          required: true
+          type: number
+          format: int
+        - 
+          name: body
+          in: body
+          description: Text of the reply
+          required: true
+          schema:
+            $ref: "#/definitions/NewReply"
+
+      responses:
+        '201':
+          description: Created reply
+          schema:
+            $ref: "#/definitions/Reply"
+        '400':
+          description: Parameters not allowed
+        '401':
+          description: Unauthorized user
+        '404':
+          description: User or comment not found
+  
+  /users/{id}:
+    get:
+      description: |
+        Gets a specific `User` identified by **id** param
+      tags:
+        - User
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of the user
+          required: true
+          type: number
+          format: int
+          
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: "#/definitions/User"
+        '404':
+          description: User not found
+    
+    put:
+      description: |
+        Modifies the `User` about field
+      tags:
+        - User
+      parameters:
+        - 
+          name: token
+          in: header
+          required: true
+          description: User token
+          type: string
+        -
+          name: id
+          in: path
+          description: ID of the user
+          required: true
+          type: number
+          format: int
+        -
+          name: body
+          in: body
+          description: Text of the about area
+          required: true
+          schema:
+            $ref: "#/definitions/UpdatedUser"
+            
+      responses:
+        '200':
+          description: Successful respoonse
+          schema:
+            $ref: "#/definitions/User"
+        '401':
+          description: Unauthorized user
+        '404':
+          description: User not found
+
+definitions:
+  Contribution:
+    type: object
+    properties:
+      id:
+        type: number
+        format: integer
+        description: Unique identifier representing specific contribution
+      title:
+        type: string
+        description: Brief text from the header of the contribution
+      content:
+        type: string
+        description: Main body of the contribution. It can be a url or a text
+      created_at:
+        type: string
+        format: date
+        description: Date when the contribution was created
+      user_id:
+        type: number
+        format: int
+        description: Unique identifier representing the user who mades the contribution
+      comments: 
+        type: number
+        format: int
+        description: Number of comments the contribution has
+      punctuation:
+        type: number
+        format: int
+        description: Number of votes the contribution has
+  
+  NewContribution:
+    type: object
+    properties:
+      title:
+        type: string
+        description: Brief text from the header of the contribution
+      url:
+        type: string
+        description: Text containing a url
+      text:
+        type: string
+        description: Text containing a question
+      user_id:
+        type: number
+        format: int
+        description: Unique identifier representing the user who mades the contribution
+  
+  Comment:
+    type: object
+    properties:
+      id:
+        type: number
+        format: int
+        description: Unique identifier representing specific comment
+      contribution_id:
+        type: number
+        format: int
+        description: Unique identifier representing the contribution which the comment belongs to
+      user_id:
+        type: number
+        format: int
+        description: Unique identifier representing the user who made the comment
+      text:
+        type: string
+        description: Content of the comment itself
+      punctuation:
+        type: number
+        format: int
+        description: Number of votes the comment has
+      created_at:
+        type: string
+        format: date
+        description: Date when the comment was created
+      replies:
+        type: number
+        format: int
+        description: Number of replies the comment has
+
+  NewComment:
+    type: object
+    properties:
+      text:
+        type: string
+  
+  Reply:
+    type: object
+    properties:
+      id:
+        type: number
+        format: int
+        description: Unique identifier representing specific reply
+      contribution_id:
+        type: number
+        format: int
+        description: Unique identifier representing the comment which the repliy belongs to
+      user_id:
+        type: number
+        format: int
+        description: Unique identifier representing the user who made the reply
+      text:
+        type: string
+        description: Content of the reply itself
+      punctuation:
+        type: number
+        format: int
+        description: Number of votes the reply has
+      created_at:
+        type: string
+        format: date
+        description: Date when the reply was created
+  
+  NewReply:
+    type: object
+    properties:
+      text:
+        type: string
+  
+  User:
+    type: object
+    properties:
+      name:
+        type: string
+      about:
+        type: string
+      created_at:
+        type: string
+        format: date
+  
+  UpdatedUser:
+    type: object
+    properties:
+      about:
+        type: string
+  
