@@ -82,6 +82,12 @@
           </span>
                   </td>
               </tr>
+              <% if current_user && current_user.id==@user.id %>
+              <tr>
+                 <td class="label" style="vertical-align: top;">token:</td>
+                 <td class="label"><%= @user.oauth_token %></td>
+              </tr>
+              <% end %>
               <tr>
                   <td class="label" style="vertical-align: top;">about:</td>
                   <% if current_user && current_user.id==@user.id %>

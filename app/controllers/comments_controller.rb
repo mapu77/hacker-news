@@ -15,6 +15,44 @@ class CommentsController < ApplicationController
       @all.sort_by { |f| [f.created_at] }
     end
   end
+  
+  def api_get
+    status = 200
+    if params[:contribution_id] != nil and params[:user_id] != nil
+      @comments = Comment.where(contribution_id: params[:contribution_id]).where(user_id: params[:user_id])
+    elsif params[:contribution_id] != nil
+      @comments = Comment.where(contribution_id: params[:contribution_id])
+    else
+      @comments = Comment.where(user_id: params[:user_id])
+    end
+    if @comments == nil
+      status = 404
+    end
+    @url_us = '/users/%d' % [@comments.user_id]
+    @url_ct = '/contributions/%d' % [@comments.contribution_id]
+    render :json => {
+      id: @comments.id,
+      contribution:{
+        contribution: @url_ct
+      },
+      user:{
+        url: @url_us
+      },
+      text: @comments.text,
+      punctuation: @comments.punctuation,
+      created_at: @comments.created_at,
+      replies: @comments.replies.size
+    }.to_json, status: status
+  end
+  
+  def api_show
+    @comment = Comment.where(id: params[:id])
+    if @comment[0] == nil
+      render :json => {"Error": "Comment not found"}.to_json, status: 404
+    else
+      render :json => @comment, status: 200
+    end
+  end
 
   # GET /comments/1
   # GET /comments/1.json

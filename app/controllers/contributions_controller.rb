@@ -20,7 +20,60 @@ class ContributionsController < ApplicationController
       @contributions = Contribution.where(text: nil).order(puntuation: :desc)
     end
   end
-
+  
+  def api_get
+    status = 200
+    type = params[:type]
+    if (type == nil)
+      @contributions = Contribution.order(puntuation: :desc)
+    elsif (type == 'url') 
+      @contributions = Contribution.where(text: nil).order(puntuation: :desc)
+    elsif (type == 'ask')
+      @contributions = Contribution.where(url: nil).order(puntuation: :desc)
+    else
+      status = 400
+    end
+    @url = '/users/%d' % [@contribution.user_id]
+    render :json => {
+      id: @contribution.id,
+      title: @contribution.title,
+      content: @contribution.url,
+      created_at: @contribution.created_at,
+      user:{
+        url: @url
+      },
+      puntuation: @contribution.puntuation,
+      comments: @contribution.comments.size
+    }.to_json, status: status
+  end
+  
+  def api_post
+    status = 201
+    @contribution = Contribution.new(contribution_params)
+    @contribution.save
+    @url = '/users/%d' % [@contribution.user_id]
+    render :json => {
+      id: @contribution.id,
+      title: @contribution.title,
+      content: @contribution.url,
+      created_at: @contribution.created_at,
+      user:{
+        url: @url
+      },
+      puntuation: @contribution.puntuation,
+      comments: @contribution.comments.size
+    }.to_json, status: status
+  end
+  
+  def api_show
+    status = 200
+    @contribution = Contribution.where(id: params[:id])
+    if @contribution[0] == nil
+      status = 404
+    end
+    render :json => @contribution, status: status
+  end
+  
   # GET /contributions/1
   # GET /contributions/1.json
   def show

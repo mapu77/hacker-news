@@ -6,6 +6,30 @@ class RepliesController < ApplicationController
   def index
     @replies = Reply.all
   end
+  
+  def api_get
+    status = 200
+    if params[:contribution_id] != nil and params[:user_id] != nil
+      @replies = Reply.where(comment_id: params[:comment_id]).where(user_id: params[:user_id])
+    elsif params[:comment_id] != nil
+      @replies = Reply.where(comment_id: params[:comment_id])
+    else
+      @replies = Reply.where(user_id: params[:user_id])
+    end
+    if @replies == nil
+      status = 404
+    end
+    render :json => @replies, status: status
+  end
+  
+  def api_show
+    @reply = Reply.where(id: params[:id])
+    if @reply[0] == nil
+      render :json => {"Error": "Reply not found"}.to_json, status: 404
+    else
+      render :json => @reply, status: 200
+    end
+  end
 
   # GET /replies/1
   # GET /replies/1.json

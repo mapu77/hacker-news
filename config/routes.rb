@@ -20,6 +20,16 @@ Rails.application.routes.draw do
   get 'contributions/delete_puntuation/:id', to: 'puntuations#destroy'
   get 'contributions/reply/new/:coment', to: 'replies#new'
   get 'users/:id/comments', to: 'comments#index'
+  
+  get 'api/v1/contributions', to: 'contributions#api_get'
+  post 'api/v1/contributions', to: 'contributions#api_post'
+  get 'api/v1/contributions/:id', to: 'contributions#api_show'
+  get 'api/v1/comments', to: 'comments#api_get'
+  post 'api/v1/comments', to: 'comments#api_post'
+  get 'api/v1/comments/:id', to: 'comments#api_show'
+  get 'api/v1/replies', to: 'replies#api_get'
+  post 'api/v1/replies', to: 'replies#api_post'
+  get 'api/v1/replies/:id', to: 'replies#api_show'
 
   resources :sessions, only: [:show, :create, :destroy]
   resources :contributions
