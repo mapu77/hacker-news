@@ -285,7 +285,6 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/NewComment"
-
       responses:
         '201':
           description: Created comment
@@ -298,6 +297,28 @@ paths:
         '404':
           description: User or contribution not found
   
+  /comments/{id}:
+    get:
+      description: |
+        Gets a specific `Comment` by **id**
+      tags:
+        - Comment
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of the comment
+          required: true
+          type: number
+          format: int
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: "#/definitions/Comment"
+        '404':
+          description: Comment not found
+    
   /replies:
     get:
       description: |
@@ -379,6 +400,28 @@ paths:
         '404':
           description: User or comment not found
   
+  /replies/{id}:
+    get:
+      description: |
+        Gets a specific `Reply` by **id**
+      tags:
+        - Reply
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of the reply
+          required: true
+          type: number
+          format: int
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: "#/definitions/Reply"
+        '404':
+          description: Reply not found
+  
   /users/{id}:
     get:
       description: |
@@ -457,10 +500,8 @@ definitions:
         type: string
         format: date
         description: Date when the contribution was created
-      user_id:
-        type: number
-        format: int
-        description: Unique identifier representing the user who mades the contribution
+      user:
+        $ref: "#/definitions/HalResponse"
       comments: 
         type: number
         format: int
@@ -469,7 +510,16 @@ definitions:
         type: number
         format: int
         description: Number of votes the contribution has
-  
+    example:
+      id: 1
+      title: "I love bits"
+      content: "http://www.fib.upc.edu/fib.html"
+      created_at: "2016-11-23T11:30:25"
+      user:
+        url: "/users/3"
+      comments: 0
+      punctuation: 0
+        
   NewContribution:
     type: object
     properties:
@@ -486,6 +536,17 @@ definitions:
         type: number
         format: int
         description: Unique identifier representing the user who mades the contribution
+    example:
+      -
+        title: "This is a question"
+        url: ""
+        text: "How did I get here?"
+        user_id: 2
+      -
+        title: "This is a url"
+        url: "www.google.es"
+        text: ""
+        user_id: 2
   
   Comment:
     type: object
@@ -494,14 +555,10 @@ definitions:
         type: number
         format: int
         description: Unique identifier representing specific comment
-      contribution_id:
-        type: number
-        format: int
-        description: Unique identifier representing the contribution which the comment belongs to
-      user_id:
-        type: number
-        format: int
-        description: Unique identifier representing the user who made the comment
+      contribution:
+        $ref: "#/definitions/HalResponse"
+      user:
+        $ref: "#/definitions/HalResponse"
       text:
         type: string
         description: Content of the comment itself
@@ -517,12 +574,24 @@ definitions:
         type: number
         format: int
         description: Number of replies the comment has
-
+    example:
+      id: 1
+      contribution: 
+        url: "/contributions/5"
+      user:
+        url: "/users/2"
+      text: "This is a comment"
+      punctuation: 2
+      created_at: "2016-11-30T14:00:00"
+      replies: 1
+      
   NewComment:
     type: object
     properties:
       text:
         type: string
+    example:
+      text: "I'm a new comment"
   
   Reply:
     type: object
@@ -531,14 +600,10 @@ definitions:
         type: number
         format: int
         description: Unique identifier representing specific reply
-      contribution_id:
-        type: number
-        format: int
-        description: Unique identifier representing the comment which the repliy belongs to
-      user_id:
-        type: number
-        format: int
-        description: Unique identifier representing the user who made the reply
+      comment:
+        $ref: "#/definitions/HalResponse"
+      user:
+        $ref: "#/definitions/HalResponse"
       text:
         type: string
         description: Content of the reply itself
@@ -550,27 +615,59 @@ definitions:
         type: string
         format: date
         description: Date when the reply was created
+    example:
+      id: 1
+      comment: 
+        url: "/comments/5"
+      user:
+        url: "/users/2"
+      text: "'This is a reply"
+      punctuation: 0
+      created_at: "2016-11-27T23:00:54"
   
   NewReply:
     type: object
     properties:
       text:
         type: string
+    example:
+      text: "I'm a new reply"
   
   User:
     type: object
     properties:
+      id:
+        type: number
+        format: int
+        description: Unique identifier representing specific user
       name:
         type: string
+        description: User's name and surname
       about:
         type: string
+        description: Little description about the user
       created_at:
         type: string
         format: date
+        description: Date when the user was created
+    example:
+      id: 1
+      name: "Pepito Menganito"
+      about: "Be like me"
+      created_at: "2016-05-23T15:14:52"
   
   UpdatedUser:
     type: object
     properties:
       about:
         type: string
+    example:
+      text: "This is the new me!"
+  
+  HalResponse:
+    type: object
+    properties:
+      url:
+        type: string
+        description: Url to the resouce
   
