@@ -29,13 +29,13 @@ tags:
   - name: User
   
 securityDefinitions:
-  apikey:
+  token:
     type: apiKey
     name: api-key
     in: header
     
 security:
-  - apikey:
+  - token: []
     
 paths:
   /contributions:
