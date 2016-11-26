@@ -239,8 +239,6 @@ paths:
             type: array
             items:
               $ref: "#/definitions/Comment"
-        '400':
-          description: Parameters not allowed
         '404':
           description: User or contribution not found
               

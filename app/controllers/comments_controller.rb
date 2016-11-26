@@ -17,32 +17,31 @@ class CommentsController < ApplicationController
   end
   
   def api_get
-    status = 200
     if params[:contribution_id] != nil and params[:user_id] != nil
-      @comments = Comment.where(contribution_id: params[:contribution_id]).where(user_id: params[:user_id])
+      if User.exists?(params[:user_id]) and Contribution.exists?(params[:contribution_id])
+        @comments = Comment.where(contribution_id: params[:contribution_id], user_id: params[:user_id])
+        render_comments(@comments, 200)
+      else
+        render :json => {"Error": "User or contribution not found"}, status: 404
+      end
     elsif params[:contribution_id] != nil
-      @comments = Comment.where(contribution_id: params[:contribution_id])
+      if Contribution.exists?(params[:contribution_id])
+        @comments = Comment.where(contribution_id: params[:contribution_id])
+        render_comments(@comments, 200)
+      else
+        render :json => {"Error": "User or contribution not found"}, status: 404
+      end
+    elsif params[:user_id] != nil
+      if User.exists?(params[:user_id])
+        @comments = Comment.where(user_id: params[:user_id])
+        render_comments(@comments, 200)
+      else
+        render :json => {"Error": "User or contribution not found"}, status: 404
+      end
     else
-      @comments = Comment.where(user_id: params[:user_id])
+        @comments = Comment.all
+        render_comments(@comments, 200)
     end
-    if @comments == nil
-      status = 404
-    end
-    @url_us = '/users/%d' % [@comments.user_id]
-    @url_ct = '/contributions/%d' % [@comments.contribution_id]
-    render :json => {
-      id: @comments.id,
-      contribution:{
-        contribution: @url_ct
-      },
-      user:{
-        url: @url_us
-      },
-      text: @comments.text,
-      punctuation: @comments.punctuation,
-      created_at: @comments.created_at,
-      replies: @comments.replies.size
-    }.to_json, status: status
   end
   
   def api_show
@@ -50,7 +49,7 @@ class CommentsController < ApplicationController
     if @comment[0] == nil
       render :json => {"Error": "Comment not found"}.to_json, status: 404
     else
-      render :json => @comment, status: 200
+      render_comment(@comment[0], 200)
     end
   end
 
@@ -117,6 +116,42 @@ class CommentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
       params.require(:comment).permit(:content, :user_id, :contribution_id)
+    end
+    
+    def render_comments(comments, status)
+      json = []
+      comments.each do | comment |
+        json << {
+          id: comment.id,
+          contribution:{
+            url: '/contributions/%d' % [comment.contribution_id]
+          },
+          user:{
+            url: '/users/%d' % [comment.user_id]
+          },
+          text: comment.content,
+          punctuation: comment.comment_puntuations.size,
+          created_at: comment.created_at,
+          replies: comment.replies.size
+        }
+      end
+      render :json => json.to_json, status: status
+    end
+    
+    def render_comment(comment, status)
+      render :json => {
+          id: comment.id,
+          contribution:{
+            url: '/contributions/%d' % [comment.contribution_id]
+          },
+          user:{
+            url: '/users/%d' % [comment.user_id]
+          },
+          text: comment.content,
+          punctuation: comment.comment_puntuations.size,
+          created_at: comment.created_at,
+          replies: comment.replies.size
+        }.to_json, status: status
     end
     
 end

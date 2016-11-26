@@ -22,56 +22,39 @@ class ContributionsController < ApplicationController
   end
   
   def api_get
-    status = 200
     type = params[:type]
     if (type == nil)
       @contributions = Contribution.order(puntuation: :desc)
+      render_contributions(@contributions, 200)
     elsif (type == 'url') 
       @contributions = Contribution.where(text: nil).order(puntuation: :desc)
+      render_contributions(@contributions, 200)
     elsif (type == 'ask')
       @contributions = Contribution.where(url: nil).order(puntuation: :desc)
+      render_contributions(@contributions, 200)
     else
-      status = 400
+      render :json => {"Error": "Type not allowed"}.to_json, status: 400
     end
-    @url = '/users/%d' % [@contribution.user_id]
-    render :json => {
-      id: @contribution.id,
-      title: @contribution.title,
-      content: @contribution.url,
-      created_at: @contribution.created_at,
-      user:{
-        url: @url
-      },
-      puntuation: @contribution.puntuation,
-      comments: @contribution.comments.size
-    }.to_json, status: status
   end
   
   def api_post
-    status = 201
-    @contribution = Contribution.new(contribution_params)
-    @contribution.save
-    @url = '/users/%d' % [@contribution.user_id]
-    render :json => {
-      id: @contribution.id,
-      title: @contribution.title,
-      content: @contribution.url,
-      created_at: @contribution.created_at,
-      user:{
-        url: @url
-      },
-      puntuation: @contribution.puntuation,
-      comments: @contribution.comments.size
-    }.to_json, status: status
+    @contribution = Contribution.new(contribution_params_api)
+    if @contribution.text != nil && @contribution.url !=nil
+      render :json => {"Error": "Conflict on creating contribution. It can't have text and url"}.to_json, status: 409
+    else
+      @contribution.save
+      render_contribution(@contribution, 201)
+    end
+    # FALTA CONTROLAR LA RESPOSTA 401
   end
   
   def api_show
-    status = 200
     @contribution = Contribution.where(id: params[:id])
     if @contribution[0] == nil
-      status = 404
+      render :json => {"Error": "Contribution not found"}.to_json, status: 404
+    else
+      render_contribution(@contribution[0], 200)
     end
-    render :json => @contribution, status: status
   end
   
   # GET /contributions/1
@@ -142,5 +125,41 @@ class ContributionsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def contribution_params
       params.require(:contribution).permit(:title, :url, :text, :puntuation, :user_id)
+    end
+    
+    def contribution_params_api
+      params.require(:contribution).permit(:title, :url, :text, :user_id)
+    end
+    
+    def render_contributions(contributions, status)
+      array = []
+      contributions.each do | contribution |
+        array << {
+          id: contribution.id,
+          title: contribution.title,
+          content: contribution.url || contribution.text,
+          created_at: contribution.created_at,
+          user:{
+            url: '/users/%d' % [contribution.user_id]
+          },
+          puntuation: contribution.puntuation,
+          comments: contribution.comments.size
+        }
+      end
+      render :json => array.to_json, status: status
+    end
+    
+    def render_contribution(contribution, status)
+      render :json => {
+          id: contribution.id,
+          title: contribution.title,
+          content: contribution.url || contribution.text,
+          created_at: contribution.created_at,
+          user:{
+            url: '/users/%d' % [contribution.user_id]
+          },
+          puntuation: contribution.puntuation,
+          comments: contribution.comments.size
+        }.to_json, status: status
     end
 end
