@@ -33,7 +33,7 @@ tags:
 securityDefinitions:
   token:
     type: apiKey
-    name: api-key
+    name: token
     in: header
     
 security:
@@ -66,7 +66,9 @@ paths:
               $ref: "#/definitions/Contribution"
         '400':
           description: Type not allowed
-              
+        '401':
+          description: Unauthorized user
+          
     post:
       description: |
         Creates a new `Contribution` with the information of the `body` param
@@ -86,6 +88,8 @@ paths:
           description: Contribution created
           schema:
             $ref: "#/definitions/Contribution"
+        '400':
+          description: Bad request. Url or text must be set
         '401':
           description: Unauthorized user
         '409':
@@ -111,6 +115,8 @@ paths:
           description: Successful response
           schema:
             $ref: "#/definitions/Contribution"
+        '401':
+          description: Unauthorized user
         '404':
           description: Contribution not found
   
@@ -118,7 +124,7 @@ paths:
     post:
       description: |
         A specific `User` votes a specific `Contribution`
-        Two compulsory query params **user_id** and **contribution_id** are required
+        Oe compulsory query params **user_id** is required and the others are optional but at least one is required.
       tags:
         - Vote
       parameters:
@@ -239,6 +245,8 @@ paths:
             type: array
             items:
               $ref: "#/definitions/Comment"
+        '401':
+          description: Unauthorized user
         '404':
           description: User or contribution not found
               
@@ -275,11 +283,11 @@ paths:
           schema:
             $ref: "#/definitions/Comment"
         '400':
-          description: Parameters not allowed
+          description: Content can not be blank
         '401':
           description: Unauthorized user
         '404':
-          description: User or contribution not found
+          description: Contribution not found
   
   /comments/{id}:
     get:
@@ -300,6 +308,8 @@ paths:
           description: Successful response
           schema:
             $ref: "#/definitions/Comment"
+        '401':
+          description: Unauthorized user
         '404':
           description: Comment not found
     
@@ -335,8 +345,10 @@ paths:
               $ref: "#/definitions/Reply"
         '400':
           description: Parameters not allowed
+        '401':
+          description: Unauthorized user
         '404':
-          description: User or comment not found
+          description: Comment not found
   
     post:
       description: |
@@ -372,11 +384,11 @@ paths:
           schema:
             $ref: "#/definitions/Reply"
         '400':
-          description: Parameters not allowed
+          description: Content can not be blank
         '401':
           description: Unauthorized user
         '404':
-          description: User or comment not found
+          description: Comment not found
   
   /replies/{id}:
     get:
@@ -397,6 +409,8 @@ paths:
           description: Successful response
           schema:
             $ref: "#/definitions/Reply"
+        '401':
+          description: Unauthorized user        
         '404':
           description: Reply not found
   
@@ -420,6 +434,8 @@ paths:
           description: Successful response
           schema:
             $ref: "#/definitions/User"
+        '401':
+          description: Unauthorized user
         '404':
           description: User not found
     
@@ -531,7 +547,7 @@ definitions:
         $ref: "#/definitions/HalResponse"
       user:
         $ref: "#/definitions/HalResponse"
-      text:
+      content:
         type: string
         description: Content of the comment itself
       punctuation:
@@ -552,7 +568,7 @@ definitions:
         url: "/contributions/5"
       user:
         url: "/users/2"
-      text: "This is a comment"
+      content: "This is a comment"
       punctuation: 2
       created_at: "2016-11-30T14:00:00"
       replies: 1
@@ -560,10 +576,10 @@ definitions:
   NewComment:
     type: object
     properties:
-      text:
+      content:
         type: string
     example:
-      text: "I'm a new comment"
+      content: "I'm a new comment"
   
   Reply:
     type: object
@@ -576,7 +592,7 @@ definitions:
         $ref: "#/definitions/HalResponse"
       user:
         $ref: "#/definitions/HalResponse"
-      text:
+      content:
         type: string
         description: Content of the reply itself
       punctuation:
@@ -593,17 +609,17 @@ definitions:
         url: "/comments/5"
       user:
         url: "/users/2"
-      text: "'This is a reply"
+      content: "'This is a reply"
       punctuation: 0
       created_at: "2016-11-27T23:00:54"
   
   NewReply:
     type: object
     properties:
-      text:
+      content:
         type: string
     example:
-      text: "I'm a new reply"
+      content: "I'm a new reply"
   
   User:
     type: object
@@ -642,4 +658,3 @@ definitions:
       url:
         type: string
         description: Url to the resouce
-  
