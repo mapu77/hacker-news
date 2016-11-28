@@ -21,15 +21,19 @@ Rails.application.routes.draw do
   get 'contributions/reply/new/:coment', to: 'replies#new'
   get 'users/:id/comments', to: 'comments#index'
   
-  get 'api/v1/contributions', to: 'contributions#api_get'
-  post 'api/v1/contributions', to: 'contributions#api_post'
-  get 'api/v1/contributions/:id', to: 'contributions#api_show'
-  get 'api/v1/comments', to: 'comments#api_get'
-  post 'api/v1/comments', to: 'comments#api_post'
-  get 'api/v1/comments/:id', to: 'comments#api_show'
-  get 'api/v1/replies', to: 'replies#api_get'
-  post 'api/v1/replies', to: 'replies#api_post'
-  get 'api/v1/replies/:id', to: 'replies#api_show'
+  get 'api/v1/contributions', to: 'contributions_api#get_contributions'
+  post 'api/v1/contributions', to: 'contributions_api#post_contributions'
+  get 'api/v1/contributions/:id', to: 'contributions_api#show_contributions'
+  get 'api/v1/comments', to: 'comments_api#get_comments'
+  post 'api/v1/comments', to: 'comments_api#post_comments'
+  get 'api/v1/comments/:id', to: 'comments_api#show_comments'
+  get 'api/v1/replies', to: 'replies_api#get_replies'
+  post 'api/v1/replies', to: 'replies_api#post_replies'
+  get 'api/v1/replies/:id', to: 'replies_api#show_replies'
+  get 'api/v1/users/:id', to: 'sessions_api#show_sessions'
+  put 'api/v1/users/:id', to: 'sessions_api#update_sessions'
+  post 'api/v1/votes', to: 'puntuations_api#post_puntuations'
+  delete 'api/v1/votes', to: 'puntuations_api#delete_puntuations'
 
   resources :sessions, only: [:show, :create, :destroy]
   resources :contributions
