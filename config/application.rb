@@ -18,7 +18,5 @@ module HackerNews
           :methods => [:get, :post, :delete, :put]
       end
     end
-    
-    
   end
 end
