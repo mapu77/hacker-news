@@ -15,43 +15,6 @@ class CommentsController < ApplicationController
       @all.sort_by { |f| [f.created_at] }
     end
   end
-  
-  def api_get
-    if params[:contribution_id] != nil and params[:user_id] != nil
-      if User.exists?(params[:user_id]) and Contribution.exists?(params[:contribution_id])
-        @comments = Comment.where(contribution_id: params[:contribution_id], user_id: params[:user_id])
-        render_comments(@comments, 200)
-      else
-        render :json => {"Error": "User or contribution not found"}, status: 404
-      end
-    elsif params[:contribution_id] != nil
-      if Contribution.exists?(params[:contribution_id])
-        @comments = Comment.where(contribution_id: params[:contribution_id])
-        render_comments(@comments, 200)
-      else
-        render :json => {"Error": "User or contribution not found"}, status: 404
-      end
-    elsif params[:user_id] != nil
-      if User.exists?(params[:user_id])
-        @comments = Comment.where(user_id: params[:user_id])
-        render_comments(@comments, 200)
-      else
-        render :json => {"Error": "User or contribution not found"}, status: 404
-      end
-    else
-        @comments = Comment.all
-        render_comments(@comments, 200)
-    end
-  end
-  
-  def api_show
-    @comment = Comment.where(id: params[:id])
-    if @comment[0] == nil
-      render :json => {"Error": "Comment not found"}.to_json, status: 404
-    else
-      render_comment(@comment[0], 200)
-    end
-  end
 
   # GET /comments/1
   # GET /comments/1.json
@@ -117,7 +80,7 @@ class CommentsController < ApplicationController
     def comment_params
       params.require(:comment).permit(:content, :user_id, :contribution_id)
     end
-    
+
     def render_comments(comments, status)
       json = []
       comments.each do | comment |
@@ -129,7 +92,7 @@ class CommentsController < ApplicationController
           user:{
             url: '/users/%d' % [comment.user_id]
           },
-          text: comment.content,
+          content: comment.content,
           punctuation: comment.comment_puntuations.size,
           created_at: comment.created_at,
           replies: comment.replies.size
@@ -147,11 +110,10 @@ class CommentsController < ApplicationController
           user:{
             url: '/users/%d' % [comment.user_id]
           },
-          text: comment.content,
+          content: comment.content,
           punctuation: comment.comment_puntuations.size,
           created_at: comment.created_at,
           replies: comment.replies.size
         }.to_json, status: status
     end
-    
 end

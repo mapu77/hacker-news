@@ -75,4 +75,4 @@ class PuntuationsController < ApplicationController
     def puntuation_params
       params.require(:puntuation).permit(:user_id, :contribution_id)
     end
-end
+  end
