@@ -658,3 +658,6 @@ definitions:
       url:
         type: string
         description: Url to the resouce
+      more_info:
+        type: object
+        description: Optional more info
