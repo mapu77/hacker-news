@@ -72,7 +72,10 @@ class RepliesApiController < ApplicationController
             url: '/comments/%d' % [reply.comment_id]
           },
           user:{
-            url: '/users/%d' % [reply.user_id]
+            url: '/users/%d' % [reply.user_id],
+            more_info: {
+                name: reply.user.name
+            }
           },
           content: reply.content,
           punctuation: reply.reply_puntuations.size,
@@ -89,7 +92,10 @@ class RepliesApiController < ApplicationController
             url: '/comment/%d' % [reply.comment_id]
           },
           user:{
-            url: '/users/%d' % [reply.user_id]
+            url: '/users/%d' % [reply.user_id],
+            more_info: {
+                name: reply.user.name
+            }
           },
           content: reply.content,
           punctuation: reply.reply_puntuations.size,

@@ -72,7 +72,10 @@ class CommentsApiController < ApplicationController
             url: '/contributions/%d' % [comment.contribution_id]
           },
           user:{
-            url: '/users/%d' % [comment.user_id]
+            url: '/users/%d' % [comment.user_id],
+            more_info: {
+                name: comment.user.name
+            }
           },
           content: comment.content,
           punctuation: comment.comment_puntuations.size,
@@ -90,7 +93,10 @@ class CommentsApiController < ApplicationController
             url: '/contributions/%d' % [comment.contribution_id]
           },
           user:{
-            url: '/users/%d' % [comment.user_id]
+            url: '/users/%d' % [comment.user_id],
+            more_info: {
+                name: comment.user.name
+            }
           },
           content: comment.content,
           punctuation: comment.comment_puntuations.size,
