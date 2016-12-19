@@ -15,7 +15,7 @@ class SessionsApiController < ApplicationController
   end
   
   def update_sessions
-    @usuari = User.where(id: params[:id])
+    @usuari = User.where('id=? OR uid=?', params[:id], params[:id].to_s)
     authenticate()
     if @flag == 0
       if @usuari[0].id != @user[0].id
@@ -32,15 +32,16 @@ class SessionsApiController < ApplicationController
   private
   
     def user_params_api
-         params.permit(:about)
-     end
+         params.permit(:about, :token)
+    end
   
     def render_user(user, status)
       render :json => {
           id: user.id,
           name: user.name,
           about: user.about,
-          created_at: user.created_at
+          created_at: user.created_at,
+          token: user.oauth_token
         }.to_json, status: status
     end
     
