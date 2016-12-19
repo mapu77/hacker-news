@@ -10,21 +10,41 @@ class PuntuationsApiController < ApplicationController
           elsif (type == 'contributions') 
             if (params[:id])
               @contributions = Puntuation.where(user_id: params[:user_id]).where(contribution_id: params[:id])
+              if @contributions[0] == nil:
+                render_contribution(false, 200)
+              else
+                render_contribution(true, 200)
+              end
             else 
               @contributions = Puntuation.where(user_id: params[:user_id])
-            render_contributions(@contributions, 200)
+              render_contributions(@contributions, 200)
+            end
           elsif (type == 'comments')
             if (params[:id])
               @comments = CommentPuntuation.where(user_id: params[:user_id]).where(comment_id: params[:id])
+              render_comment(@comments, 200)
+              if @comments[0] == nil:
+                render_contribution(false, 200)
+              else
+                render_contribution(true, 200)
+              end
             else
               @comments = CommentPuntuation.where(user_id: params[:user_id])
-            render_contributions(@comments, 200)
+              render_comments(@comments, 200)
+            end
           elsif (type == 'replies')
             if (params[:id])
               @replies = ReplyPuntuation.where(user_id: params[:user_id]).where(reply_id: params[:id])
+              render_reply(@replies, 200)
+              if @replies[0] == nil:
+                render_contribution(false, 200)
+              else
+                render_contribution(true, 200)
+              end
             else 
               @replies = ReplyPuntuation.where(user_id: params[:user_id])
-            render_contributions(@replies, 200)
+              render_replies(@replies, 200)
+            end
           else
             render :json => {"Error": "Type not allowed"}.to_json, status: 400
           end
@@ -155,19 +175,52 @@ class PuntuationsApiController < ApplicationController
         params.permit(:reply_id, :user_id)
       end
       
-    #   def render_puntuation(puntuation, status)
-    #   render :json => {
-    #       id: .id,
-    #       contribution:{
-    #         url: '/contributions/%d' % [comment.contribution_id]
-    #       },
-    #       user:{
-    #         url: '/users/%d' % [comment.user_id]
-    #       },
-    #       content: comment.content,
-    #       punctuation: comment.comment_puntuations.size,
-    #       created_at: comment.created_at,
-    #       replies: comment.replies.size
-    #     }.to_json, status: status
-    # end
+    def render_contributions(contributions, status)
+      array = []
+      contributions.each do | contribution |
+        array << {
+          id: contribution.id,
+        }
+      end
+      render :json => array.to_json, status: status
+    end
+      
+    def render_contribution(boolean, status)
+      render :json => {
+          voted: boolean,
+      }.to_json, status: status
+    end
+    
+    def render_comments(comments, status)
+      array = []
+      comments.each do | comment |
+        array << {
+          id: comment.id,
+        }
+      end
+      render :json => array.to_json, status: status
+    end
+    
+    def render_comment(boolean, status)
+      render :json => {
+          voted: boolean,
+      }.to_json, status: status
+    end
+    
+    def render_replies(replies, status)
+      array = []
+      replies.each do | reply |
+        array << {
+          id: reply.id,
+        }
+      end
+      render :json => array.to_json, status: status
+    end
+    
+    def render_reply(boolean, status)
+      render :json => {
+          voted: boolean,
+      }.to_json, status: status
+    end
+    
 end
