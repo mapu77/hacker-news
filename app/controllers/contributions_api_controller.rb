@@ -56,10 +56,7 @@ class ContributionsApiController < ApplicationController
           content: contribution.url || contribution.text,
           created_at: contribution.created_at,
           user:{
-            url: '/users/%d' % [contribution.user_id],
-            more_info: {
-                name: contribution.user.name
-            }
+            url: '/users/%d' % [contribution.user_id]
           },
           puntuation: contribution.puntuation,
           comments: contribution.comments.size
@@ -76,9 +73,7 @@ class ContributionsApiController < ApplicationController
           created_at: contribution.created_at,
           user:{
             url: '/users/%d' % [contribution.user_id],
-            more_info: {
-                name: contribution.user.name
-            }
+            name: contribution.user.name
           },
           puntuation: contribution.puntuation,
           comments: contribution.comments.size

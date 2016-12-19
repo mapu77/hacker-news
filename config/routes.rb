@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get 'api/v1/replies/:id', to: 'replies_api#show_replies'
   get 'api/v1/users/:id', to: 'sessions_api#show_sessions'
   put 'api/v1/users/:id', to: 'sessions_api#update_sessions'
+  get 'api/v1/votes', to: 'puntuations_api#get_puntuations'
   post 'api/v1/votes', to: 'puntuations_api#post_puntuations'
   delete 'api/v1/votes', to: 'puntuations_api#delete_puntuations'
 

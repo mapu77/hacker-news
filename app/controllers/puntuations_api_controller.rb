@@ -2,6 +2,35 @@ class PuntuationsApiController < ApplicationController
     before_action :authenticate
     after_action :cors_set_access_control_headers
     
+    def get_puntuations
+        if @flag == 0
+          type = params[:type]
+          if (type == nil)
+             render :json => {"Error": "Parameter type cannot be blank"}.to_json, status: 400
+          elsif (type == 'contributions') 
+            if (params[:id])
+              @contributions = Puntuation.where(user_id: params[:user_id]).where(contribution_id: params[:id])
+            else 
+              @contributions = Puntuation.where(user_id: params[:user_id])
+            render_contributions(@contributions, 200)
+          elsif (type == 'comments')
+            if (params[:id])
+              @comments = CommentPuntuation.where(user_id: params[:user_id]).where(comment_id: params[:id])
+            else
+              @comments = CommentPuntuation.where(user_id: params[:user_id])
+            render_contributions(@comments, 200)
+           elsif (type == 'replies')
+            if (params[:id])
+              @replies = ReplyPuntuation.where(user_id: params[:user_id]).where(reply_id: params[:id])
+            else 
+              @replies = ReplyPuntuation.where(user_id: params[:user_id])
+            render_contributions(@replies, 200)
+          else
+            render :json => {"Error": "Type not allowed"}.to_json, status: 400
+          end
+        end
+    end
+    
     def post_puntuations
       if @flag == 0
         if ((params[:contribution_id]!=nil && params[:reply_id]!=nil && params[:comment_id]!=nil) ||
