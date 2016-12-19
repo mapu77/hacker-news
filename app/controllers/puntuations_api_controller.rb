@@ -19,7 +19,7 @@ class PuntuationsApiController < ApplicationController
             else
               @comments = CommentPuntuation.where(user_id: params[:user_id])
             render_contributions(@comments, 200)
-           elsif (type == 'replies')
+          elsif (type == 'replies')
             if (params[:id])
               @replies = ReplyPuntuation.where(user_id: params[:user_id]).where(reply_id: params[:id])
             else 
